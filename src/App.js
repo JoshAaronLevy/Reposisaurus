@@ -1,11 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import "primeflex/primeflex.css";
+import './App.scss';
 
 import Home from './pages/Home';
-
 import RepositoryState from './services/repository';
-
-import './App.css';
 
 const App = () => {
 	return (

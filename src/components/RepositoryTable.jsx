@@ -1,28 +1,59 @@
-// import React, { useState, useEffect } from 'react';
-// import { DataTable } from 'primereact/datatable';
-// import { Column } from 'primereact/column';
-// import { ProductService } from '../service/ProductService';
+import React, { useState, useContext } from 'react';
+import apiContext from '../services/context';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+// import { classNames } from 'primereact/utils';
+import { FilterMatchMode } from 'primereact/api';
+import { Dropdown } from 'primereact/dropdown';
 
-// const RepositoryTable = () => {
-// 	const [repos, setProducts] = useState([]);
-// 	const productService = new ProductService();
+const RepositoryTable = () => {
+	const api = useContext(apiContext);
+	const { repos } = api;
+	const [selectedRepo, setSelectedRepo] = useState(null);
+	// const [selectedLanguages, setSelectedLanguages] = useState([]);
 
-// 	useEffect(() => {
-// 		productService.getProductsSmall().then(data => setProducts(data));
-// 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	const languages = repos.filter(repo => {
+		return repo.language;
+	}).map(repo => {
+		return repo.language;
+	});
 
-// 	return (
-// 		<div>
-// 			<div className="card">
-// 				<DataTable value={repos} header="Stack" responsiveLayout="stack" breakpoint="960px">
-// 					<Column field="code" header="Code" />
-// 					<Column field="name" header="Name" />
-// 					<Column field="category" header="Category" />
-// 					<Column field="quantity" header="Quantity" />
-// 				</DataTable>
-// 			</div>
-// 		</div>
-// 	);
-// }
+	const [filters2] = useState({
+		'language': { value: null, matchMode: FilterMatchMode.EQUALS }
+	});
 
-// export default RepositoryTable;
+	// const [globalFilterValue2, setGlobalFilterValue2] = useState('');
+
+	const statusBodyTemplate = (rowData) => {
+		return <span>{rowData.language}</span>;
+	}
+
+	// const statusFilterTemplate = (options) => {
+	// 	return <Dropdown value={options.value} options={languages} onChange={(e) => options.filterCallback(e.value, options.index)} itemTemplate={statusItemTemplate} placeholder="Select a Status" className="p-column-filter" showClear />;
+	// }
+
+	const statusItemTemplate = (option) => {
+		return <span>{option}</span>;
+	}
+
+	const statusRowFilterTemplate = (options) => {
+		return <Dropdown value={options.value} options={languages} onChange={(e) => options.filterApplyCallback(e.value)} itemTemplate={statusItemTemplate} placeholder="Select a Status" className="p-column-filter" showClear />;
+	}
+
+	return (
+		<div className='container-padded'>
+			<div className="card">
+				<DataTable value={repos} stripedRows selection={selectedRepo} onSelectionChange={e => setSelectedRepo(e.value)} dataKey="id" filters={filters2} filterDisplay="row" responsiveLayout="stack" breakpoint="960px">
+					<Column selectionMode="single" headerStyle={{ width: '3em' }}></Column>
+					<Column field="name" header="Name" />
+					<Column field="owner.login" header="Owner" />
+					<Column field="created_at" header="Created On" />
+					<Column field="language" header="Language" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
+					<Column field="stargazers_count" header="Stars" />
+				</DataTable>
+			</div>
+		</div>
+	);
+}
+
+export default RepositoryTable;
