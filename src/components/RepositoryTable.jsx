@@ -3,7 +3,7 @@
 // import { Column } from 'primereact/column';
 // import { ProductService } from '../service/ProductService';
 
-// const RepoTable = () => {
+// const RepositoryTable = () => {
 // 	const [repos, setProducts] = useState([]);
 // 	const productService = new ProductService();
 
@@ -25,4 +25,4 @@
 // 	);
 // }
 
-// export default RepoTable;
+// export default RepositoryTable;
