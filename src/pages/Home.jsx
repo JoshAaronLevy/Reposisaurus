@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import Search from '../components/Search';
-// import RepositoryTable from '../components/RepositoryTable';
+import RepositoryTable from '../components/RepositoryTable';
 
 const Home = () =>
 	<Fragment>
 		<Search />
-		{/* <RepositoryTable /> */}
+		<RepositoryTable />
 	</Fragment>
 
 export default Home;
