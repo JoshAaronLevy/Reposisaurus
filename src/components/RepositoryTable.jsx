@@ -2,58 +2,74 @@ import React, { useState, useContext } from 'react';
 import apiContext from '../services/context';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-// import { classNames } from 'primereact/utils';
 import { FilterMatchMode } from 'primereact/api';
-import { Dropdown } from 'primereact/dropdown';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import "../styles/table.scss";
+import * as fuzzysort from "fuzzysort";
 
 const RepositoryTable = () => {
 	const api = useContext(apiContext);
-	const { repos } = api;
-	const [selectedRepo, setSelectedRepo] = useState(null);
-	// const [selectedLanguages, setSelectedLanguages] = useState([]);
+	let { repos } = api;
+	const [filters, setFilters] = useState(null);
+	const [globalFilterValue, setGlobalFilterValue] = useState('');
 
-	const languages = repos.filter(repo => {
-		return repo.language;
-	}).map(repo => {
-		return repo.language;
-	});
-
-	const [filters2] = useState({
-		'language': { value: null, matchMode: FilterMatchMode.EQUALS }
-	});
-
-	// const [globalFilterValue2, setGlobalFilterValue2] = useState('');
-
-	const statusBodyTemplate = (rowData) => {
-		return <span>{rowData.language}</span>;
-	}
-
-	// const statusFilterTemplate = (options) => {
-	// 	return <Dropdown value={options.value} options={languages} onChange={(e) => options.filterCallback(e.value, options.index)} itemTemplate={statusItemTemplate} placeholder="Select a Status" className="p-column-filter" showClear />;
-	// }
-
-	const statusItemTemplate = (option) => {
-		return <span>{option}</span>;
-	}
-
-	const statusRowFilterTemplate = (options) => {
-		return <Dropdown value={options.value} options={languages} onChange={(e) => options.filterApplyCallback(e.value)} itemTemplate={statusItemTemplate} placeholder="Select a Status" className="p-column-filter" showClear />;
-	}
-
-	return (
-		<div className='container-padded'>
-			<div className="card">
-				<DataTable value={repos} stripedRows selection={selectedRepo} onSelectionChange={e => setSelectedRepo(e.value)} dataKey="id" filters={filters2} filterDisplay="row" responsiveLayout="stack" breakpoint="960px">
-					<Column selectionMode="single" headerStyle={{ width: '3em' }}></Column>
-					<Column field="name" header="Name" />
-					<Column field="owner.login" header="Owner" />
-					<Column field="created_at" header="Created On" />
-					<Column field="language" header="Language" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
-					<Column field="stargazers_count" header="Stars" />
-				</DataTable>
+	const renderHeader = () => {
+		return (
+			<div className="flex justify-content-end">
+				<span className="p-input-icon-left mr-2">
+					<i className="pi pi-search" />
+					<InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Filter by Language" />
+				</span>
+				<Button type="button" disabled={!globalFilterValue} icon="pi pi-filter-slash" label="Clear" className="p-button-danger" onClick={clearFilter} />
 			</div>
-		</div>
-	);
+		)
+	}
+
+	const onGlobalFilterChange = (e) => {
+		const value = e.target.value;
+		const filteredRepos = fuzzysort.goAsync(value, repos, { key: 'language' });
+		filteredRepos.then(results => {
+			repos = results;
+		});
+		setGlobalFilterValue(value);
+	}
+
+	const clearFilter = () => {
+		initFilters();
+	}
+
+	const initFilters = () => {
+		setFilters({
+			'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+			'language': { value: null, matchMode: FilterMatchMode.CONTAINS }
+		});
+		setGlobalFilterValue('');
+	}
+
+	const header = renderHeader();
+
+	if (repos && repos.length > 0) {
+		return (
+			<div className='container-padded'>
+				<div className="card">
+					<DataTable value={repos} paginator className="p-datatable-customers" stripedRows rows={25}
+						dataKey="id" filters={filters} filterDisplay="menu" responsiveLayout="scroll"
+						globalFilterFields={['language']} header={header} emptyMessage="No repositories found.">
+						<Column field="name" header="Name" />
+						<Column field="owner.login" header="Owner" />
+						<Column field="created_at" header="Created On" />
+						<Column field="language" header="Language" />
+						<Column field="stargazers_count" header="Stars" />
+					</DataTable>
+				</div>
+			</div>
+		);
+	} else {
+		return (
+			<div></div>
+		);
+	}
 }
 
 export default RepositoryTable;

@@ -2,7 +2,7 @@
 import { SEARCH_REPOS, SET_LOADING, SET_REPO, SET_WARNING, SET_ERROR } from '../utils/types';
 
 export default (state, action) => {
-	console.log(action);
+	if (action.payload) console.log("state action:", action.payload);
 	switch (action.type) {
 		case SEARCH_REPOS:
 			return {

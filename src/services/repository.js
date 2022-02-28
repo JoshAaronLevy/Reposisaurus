@@ -16,7 +16,6 @@ const RepositoryState = props => {
 	const [state, dispatch] = useReducer(repositoryReducer, initialState);
 
 	const searchRepos = async (text) => {
-		setLoading();
 		const res = await axios.get(
 			`https://api.github.com/search/repositories?q=${text}`
 		);
@@ -26,10 +25,11 @@ const RepositoryState = props => {
 		});
 	};
 
-	const setLoading = () => dispatch({ type: SET_LOADING })
+	// eslint-disable-next-line no-unused-vars
+	const setLoading = async () => await dispatch({ type: SET_LOADING });
 
 	const setRepo = async (selectedRepo) => {
-		console.log(selectedRepo);
+		console.log("selectedRepo:", selectedRepo);
 		dispatch({
 			type: SET_REPO,
 			payload: selectedRepo
@@ -37,7 +37,7 @@ const RepositoryState = props => {
 	};
 
 	const setError = async (error) => {
-		dispatch({
+		await dispatch({
 			type: SET_ERROR,
 			payload: error
 		});
