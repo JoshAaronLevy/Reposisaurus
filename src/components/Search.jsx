@@ -21,7 +21,7 @@ const Search = () => {
 		}
 		setText('');
 		await setLoading(false);
-		console.log(searchResults);
+		return searchResults;
 	}
 
 	return (
