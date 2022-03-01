@@ -6,10 +6,13 @@ import './App.scss';
 import Home from './pages/Home';
 import Repository from './pages/Repository';
 import RepositoryState from './services/repository';
+import Header from './components/Header';
+
 
 const App = () => {
 	return (
 		<RepositoryState>
+			<Header />
 			<Router>
 				<div className="App">
 					<div className="container">
