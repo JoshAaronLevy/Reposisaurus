@@ -26,8 +26,7 @@ const Search = () => {
 		<div className="grid surface-0 text-800 mb-5">
 			<div className="col-12 hero-section">
 				<section className='hero-search'>
-					<span className="block text-4xl font-bold mb-2">Repo Runner</span>
-					<div className="text-2xl text-primary font-bold mb-4">Search GitHub Repositories</div>
+					<span className="block text-3xl font-bold mb-4">Search GitHub Repositories</span>
 					<form onSubmit={onSubmit}>
 						<div className="p-inputgroup">
 							<InputText value={text} onChange={onChange} placeholder="Search Repos By Name..." />

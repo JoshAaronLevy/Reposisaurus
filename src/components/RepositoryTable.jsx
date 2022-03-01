@@ -14,7 +14,7 @@ import Moment from 'react-moment';
 const RepositoryTable = () => {
 	const appState = useContext(appContext);
 	let { repositories } = appState;
-	let selectedRepo = appState.repo;
+	let selectedRepo = appState.selectedRepo;
 	const [filters, setFilters] = useState(null);
 	const [globalFilterValue, setGlobalFilterValue] = useState('');
 	const toast = useRef(null);
