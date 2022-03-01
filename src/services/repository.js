@@ -1,37 +1,102 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import apiContext from './context';
+import appContext from './context';
 import repositoryReducer from '../reducers/repository';
-import { SEARCH_REPOS, SET_LOADING, SET_REPO, SET_WARNING, SET_ERROR } from '../utils/types';
+import {
+	SEARCH_REPOS,
+	SET_LOADING,
+	SET_REPO,
+	SET_ERROR,
+	UPDATE_SEARCH_INPUT,
+	UPDATE_SEARCH_FILTERS,
+	UPDATE_SEARCH_SORT,
+	UPDATE_SEARCH_HISTORY,
+	UPDATE_RECENTLY_VIEWED
+} from '../utils/types';
 
 const RepositoryState = props => {
 	const initialState = {
 		repos: [],
-		repo: {},
+		repo: null,
 		loading: false,
 		error: false,
-		toast: null
+		searchQuery: {
+			input: null,
+			filter: null,
+			sort: {
+				value: null,
+				direction: null
+			},
+			history: []
+		},
+		recentlyViewed: []
 	}
 
 	const [state, dispatch] = useReducer(repositoryReducer, initialState);
 
-	const searchRepos = async (text) => {
-		const res = await axios.get(
-			`https://api.github.com/search/repositories?q=${text}`
-		);
-		dispatch({
-			type: SEARCH_REPOS,
-			payload: res.data.items
+	const searchRepos = (text) => {
+		const request = axios.get(`https://api.github.com/search/repositories?q=${text}`);
+		return request
+			.then((response) => {
+				if (response.status >= 200 && response.status < 300) {
+					setRepos(response.data.items);
+					setSearchInput(text);
+					setSearchHistory(text);
+				}
+				return response;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	};
+
+	const setLoading = async () => await dispatch({ type: SET_LOADING });
+
+	const setSearchInput = async (text) => {
+		await dispatch({
+			type: UPDATE_SEARCH_INPUT,
+			payload: text
 		});
 	};
 
-	// eslint-disable-next-line no-unused-vars
-	const setLoading = async () => await dispatch({ type: SET_LOADING });
+	const setSearchFilters = async (filter) => {
+		await dispatch({
+			type: UPDATE_SEARCH_FILTERS,
+			payload: filter
+		});
+	};
+
+	const setSearchSort = async (sortData) => {
+		await dispatch({
+			type: UPDATE_SEARCH_SORT,
+			payload: sortData
+		});
+	};
+
+	const setSearchHistory = async (text) => {
+		await dispatch({
+			type: UPDATE_SEARCH_HISTORY,
+			payload: text
+		});
+	};
+
+	const setRepos = async (repositories) => {
+		await dispatch({
+			type: SEARCH_REPOS,
+			payload: repositories
+		});
+	};
 
 	const setRepo = async (selectedRepo) => {
-		console.log("selectedRepo:", selectedRepo);
-		dispatch({
+		await dispatch({
 			type: SET_REPO,
+			payload: selectedRepo
+		});
+	};
+
+	const setViewedRepo = async (selectedRepo) => {
+		await dispatch({
+			type: UPDATE_RECENTLY_VIEWED,
 			payload: selectedRepo
 		});
 	};
@@ -43,20 +108,27 @@ const RepositoryState = props => {
 		});
 	};
 
-	return <apiContext.Provider
+	return <appContext.Provider
 		value={
 			{
 				repos: state.repos,
 				repo: state.repo,
 				loading: state.loading,
+				searchQuery: state.searchQuery,
 				searchRepos,
+				setSearchInput,
+				setSearchFilters,
+				setSearchSort,
+				setSearchHistory,
 				setRepo,
-				setError
+				setViewedRepo,
+				setError,
+				setLoading
 			}
 		}
 	>
 		{props.children}
-	</apiContext.Provider>
+	</appContext.Provider>
 }
 
 export default RepositoryState;
