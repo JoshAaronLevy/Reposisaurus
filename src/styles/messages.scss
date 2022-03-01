@@ -1,0 +1,12 @@
+.messages-container {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	.p-message {
+		width: 100%;
+	}
+}
+
+.p-message-wrapper {
+	justify-content: center;
+}

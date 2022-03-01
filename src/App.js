@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ScrollTop } from 'primereact/scrolltop';
 import "primeflex/primeflex.css";
 import './App.scss';
 
@@ -12,14 +13,16 @@ import Header from './components/Header';
 const App = () => {
 	return (
 		<RepositoryState>
-			<Header />
 			<Router>
+				<Header />
 				<div className="App">
+					<ScrollTop />
 					<div className="container">
 						<Switch>
 							<Route exact path="/" component={Home} />
 							<Route exact path="/repo/:owner/:name" component={Repository} />
 						</Switch>
+						<ScrollTop target="parent" threshold={50} className="custom-scrolltop" icon="pi pi-arrow-up" />
 					</div>
 				</div>
 			</Router>

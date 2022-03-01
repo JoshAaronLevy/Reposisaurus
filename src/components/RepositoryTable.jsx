@@ -71,10 +71,6 @@ const RepositoryTable = () => {
 	const onRowSelect = async (event) => {
 		await toast.current.clear();
 		await appState.setRepo(event.data);
-		const repoDesc = event.data.description;
-		if (repoDesc && repoDesc.length > 100) {
-			event.data.description = event.data.description.substring(0, 97) + "...";
-		}
 		showConfirm(event.data);
 	}
 
@@ -87,6 +83,12 @@ const RepositoryTable = () => {
 	}
 
 	const showConfirm = (selectedRepo) => {
+		let displayDescription = '';
+		if (selectedRepo.description && selectedRepo.description.length > 100) {
+			displayDescription = selectedRepo.description.substring(0, 97) + "...";
+		} else {
+			displayDescription = selectedRepo.description;
+		}
 		toast.current.show({
 			severity: 'info',
 			sticky: true,
@@ -96,7 +98,7 @@ const RepositoryTable = () => {
 					<div className="text-center">
 						<h3 className='toast-title'>{selectedRepo.name} by {selectedRepo.owner.login}</h3>
 						{selectedRepo.description && (
-							<p>{selectedRepo.description}</p>
+							<p>{displayDescription}</p>
 						)}
 					</div>
 					<div className="grid p-fluid flex justify-content-around">
@@ -126,7 +128,7 @@ const RepositoryTable = () => {
 						paginator
 						className="p-datatable-customers"
 						stripedRows
-						rows={50}
+						rows={15}
 						dataKey="id"
 						selectionMode="single"
 						selection={selectedRepo}

@@ -51,6 +51,22 @@ const RepositoryState = props => {
 			});
 	};
 
+	const searchRepo = async (owner, repo) => {
+		const request = axios.get(`https://api.github.com/repos/${owner}/${repo}`);
+		await request
+			.then((response) => {
+				let selectedRepo = {};
+				if (response.status >= 200 && response.status < 300) {
+					selectedRepo = response.data;
+					setRepo(selectedRepo);
+				}
+				return selectedRepo;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	};
+
 	const setLoading = async () => await dispatch({ type: SET_LOADING });
 
 	const setSearchInput = async (text) => {
@@ -117,6 +133,7 @@ const RepositoryState = props => {
 				loading: state.loading,
 				searchQuery: state.searchQuery,
 				searchRepos,
+				searchRepo,
 				setSearchInput,
 				setSearchFilters,
 				setSearchSort,
