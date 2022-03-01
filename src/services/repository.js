@@ -16,8 +16,9 @@ import {
 
 const RepositoryState = props => {
 	const initialState = {
-		repos: [],
-		repo: null,
+		repositories: [],
+		filteredRepos: [],
+		selectedRepo: null,
 		loading: false,
 		error: false,
 		searchQuery: {
@@ -111,8 +112,8 @@ const RepositoryState = props => {
 	return <appContext.Provider
 		value={
 			{
-				repos: state.repos,
-				repo: state.repo,
+				repositories: state.repositories,
+				selectedRepo: state.selectedRepo,
 				loading: state.loading,
 				searchQuery: state.searchQuery,
 				searchRepos,

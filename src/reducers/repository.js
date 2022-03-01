@@ -19,7 +19,7 @@ export default (state, action) => {
 	if (action.type === SEARCH_REPOS) {
 		stateObj = {
 			...state,
-			repos: action.payload,
+			repositories: action.payload,
 			loading: false,
 			warning: false,
 			error: false
@@ -27,12 +27,12 @@ export default (state, action) => {
 	} else if (action.type === GET_REPO) {
 		stateObj = {
 			...state,
-			repo: action.payload
+			selectedRepo: action.payload
 		}
 	} else if (action.type === SET_REPO) {
 		stateObj = {
 			...state,
-			repo: action.payload,
+			selectedRepo: action.payload,
 			loading: false,
 			warning: false,
 			error: false
@@ -53,7 +53,7 @@ export default (state, action) => {
 		}
 	} else if (action.type === UPDATE_SEARCH_INPUT) {
 		let stateQuery = lodash.cloneDeep(state.searchQuery);
-		stateQuery.input = action.searchInput;
+		stateQuery.input = action.payload;
 		stateObj = {
 			...state,
 			searchQuery: stateQuery
@@ -75,7 +75,7 @@ export default (state, action) => {
 	} else if (action.type === UPDATE_SEARCH_HISTORY) {
 		let stateQuery = lodash.cloneDeep(state.searchQuery);
 		let currentHistory = stateQuery.history;
-		currentHistory.unshift(action.searchInput);
+		currentHistory.unshift(action.payload);
 		let uniqueSearches = [];
 		if (stateQuery.history && stateQuery.history.length > 0) {
 			uniqueSearches = [...new Set(stateQuery.history)];
@@ -86,7 +86,6 @@ export default (state, action) => {
 				history: uniqueSearches
 			}
 		}
-		console.log("search history:", uniqueSearches);
 	} else if (action.type === UPDATE_RECENTLY_VIEWED) {
 		let currentViewHistory = lodash.cloneDeep(state.recentlyViewed);
 		currentViewHistory.unshift(action.repository);
@@ -98,7 +97,6 @@ export default (state, action) => {
 			...state,
 			recentlyViewed: uniqueHistory
 		}
-		console.log("recently viewed:", uniqueHistory);
 	} else {
 		stateObj = {};
 	}
