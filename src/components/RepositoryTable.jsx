@@ -13,7 +13,7 @@ import Moment from 'react-moment';
 
 const RepositoryTable = () => {
 	const appState = useContext(appContext);
-	let { repos } = appState;
+	let { repositories } = appState;
 	let selectedRepo = appState.repo;
 	const [filters, setFilters] = useState(null);
 	const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -32,13 +32,14 @@ const RepositoryTable = () => {
 		)
 	}
 
-	const onGlobalFilterChange = (e) => {
+	const onGlobalFilterChange = async (e) => {
 		const value = e.target.value;
-		const filteredRepos = fuzzysort.goAsync(value, repos, { key: 'language' });
-		filteredRepos.then(results => {
-			repos = results;
+		const filteredRepos = fuzzysort.goAsync(value, repositories, { key: 'language' })
+		await filteredRepos.then(results => {
+			repositories = results;
+			setGlobalFilterValue(value);
 		});
-		setGlobalFilterValue(value);
+		await appState.searchRepos(value);
 	}
 
 	const clearFilter = () => {
@@ -69,7 +70,6 @@ const RepositoryTable = () => {
 
 	const onRowSelect = async (event) => {
 		await toast.current.clear();
-		console.log("event", event);
 		await appState.setRepo(event.data);
 		const repoDesc = event.data.description;
 		if (repoDesc && repoDesc.length > 100) {
@@ -80,17 +80,10 @@ const RepositoryTable = () => {
 
 	const onRowUnselect = async () => {
 		await toast.current.clear();
-		// await setSelectedRepo(null);
-		// await api.setRepo(null);
 	}
 
 	const viewRepo = async (selectedRepo) => {
-		console.log("appState.repo", appState.repo);
-		console.log("selectedRepo", selectedRepo);
-		// await api.setViewedRepo(selectedRepo);
-		const repoPath = `/repo/${selectedRepo.owner.login}/${selectedRepo.name}`;
-		console.log(repoPath);
-		navigate.push(repoPath);
+		navigate.push(`/repo/${selectedRepo.owner.login}/${selectedRepo.name}`);
 	}
 
 	const showConfirm = (selectedRepo) => {
@@ -123,19 +116,34 @@ const RepositoryTable = () => {
 		});
 	}
 
-	if (repos && repos.length > 0) {
+	if (repositories && repositories.length > 0) {
 		return (
 			<div className='container-padded'>
 				<Toast ref={toast} position="bottom-right" />
 				<div className="card">
-					<DataTable value={repos} paginator className="p-datatable-customers" stripedRows rows={50}
-						dataKey="id" selectionMode="single" selection={selectedRepo} filters={filters} filterDisplay="menu" responsiveLayout="scroll"
-						globalFilterFields={['language']} header={header} emptyMessage="No repositories found." onRowSelect={onRowSelect} onRowUnselect={onRowUnselect}>
+					<DataTable
+						value={repositories}
+						paginator
+						className="p-datatable-customers"
+						stripedRows
+						rows={50}
+						dataKey="id"
+						selectionMode="single"
+						selection={selectedRepo}
+						filters={filters}
+						filterDisplay="menu"
+						responsiveLayout="scroll"
+						globalFilterFields={['language']}
+						header={header}
+						emptyMessage="No repositories found."
+						onRowSelect={onRowSelect}
+						onRowUnselect={onRowUnselect}
+						removableSort>
 						<Column field="name" header="Name" />
 						<Column field="owner.login" header="Owner" />
 						<Column field="created_at" header="Created On" body={dateTransformTemplate} />
 						<Column field="language" header="Language" />
-						<Column field="stargazers_count" header="Stars" />
+						<Column field="stargazers_count" header="Stars" sortable />
 					</DataTable>
 				</div>
 			</div>

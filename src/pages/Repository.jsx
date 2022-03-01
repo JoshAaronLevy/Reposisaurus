@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef } from 'react';
-import apiContext from '../services/context';
+import appContext from '../services/context';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FilterMatchMode } from 'primereact/api';
@@ -10,8 +10,8 @@ import "../styles/table.scss";
 import * as fuzzysort from "fuzzysort";
 
 const Repository = () => {
-	const api = useContext(apiContext);
-	let { repos } = api;
+	const appState = useContext(appContext);
+	let { repos } = appState;
 	const [filters, setFilters] = useState(null);
 	const [selectedRepo, setSelectedRepo] = useState(null);
 	const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -55,7 +55,7 @@ const Repository = () => {
 	const onRowSelect = async (event) => {
 		await onRowUnselect();
 		await setSelectedRepo(event.data);
-		await api.setRepo(event.data);
+		await appState.setRepo(event.data);
 		const repoDesc = event.data.description;
 		if (repoDesc && repoDesc.length > 100) {
 			event.data.description = event.data.description.substring(0, 97) + "...";
@@ -66,7 +66,7 @@ const Repository = () => {
 	const onRowUnselect = async () => {
 		await toast.current.clear();
 		await setSelectedRepo(null);
-		await api.setRepo(null);
+		await appState.setRepo(null);
 	}
 
 	const showConfirm = (currentRepo) => {

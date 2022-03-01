@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import apiContext from '../services/context';
+import appContext from '../services/context';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
 const Search = () => {
 	const [text, setText] = useState('');
 	const [loading, setLoading] = useState(false);
-	const api = useContext(apiContext);
+	const appState = useContext(appContext);
 
 	const onChange = e => {
 		setText(e.target.value);
@@ -16,9 +16,7 @@ const Search = () => {
 		await setLoading(true);
 		let searchResults = [];
 		e.preventDefault();
-		if (text) {
-			searchResults = await api.searchRepos(text);
-		}
+		if (text) searchResults = await appState.searchRepos(text);
 		setText('');
 		await setLoading(false);
 		return searchResults;
