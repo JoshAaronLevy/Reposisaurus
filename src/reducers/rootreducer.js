@@ -53,7 +53,6 @@ export const rootReducer = createReducer([], {
 	},
 	UPDATE_SELECTED_REPOSITORY: (state, action) => {
 		const repo = action.selectedRepo;
-		console.log(action);
 		return Object.assign({}, state, {
 			selectedRepo: repo,
 		});

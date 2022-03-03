@@ -92,7 +92,6 @@ class SearchTable extends Component {
 	}
 
 	selectRepository(e) {
-		console.log(e.data);
 		const selectedRepository = e.data;
 		if (!this.props.selectedRepo || (this.props.selectedRepo.id !== selectedRepository.id)) {
 			this.setState({ selectedRepository: e.data });

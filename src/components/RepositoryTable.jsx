@@ -10,7 +10,6 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import "../styles/table.scss";
-import * as fuzzysort from "fuzzysort";
 import Moment from 'react-moment';
 
 const RepositoryTable = () => {

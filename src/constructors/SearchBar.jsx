@@ -17,29 +17,15 @@ class SearchBar extends Component {
 		}
 	}
 
-	fetchRepos(inputValue) {
-		getRepositories(inputValue).then(response => {
-			const repos = response;
-			console.log(repos);
-			this.props.updateRepositories(repos);
-		});
-	}
-
 	render() {
 		const setSearchVal = async (e) => {
 			let inputValue = e.target.value;
 			this.props.updateQueryInput(inputValue);
-			setTimeout(() => {
-				this.props.updateSelectedRepository({});
-				this.props.updateLoadingState(true);
-			}, 500);
-			await setTimeout(() => {
-				searchRepositories(inputValue);
-			}, 750);
 		}
 
 		const submitSearch = (e, inputValue) => {
 			this.props.updateLoadingState(true);
+			this.props.updateSelectedRepository({});
 			e.preventDefault();
 			searchRepositories(inputValue);
 		}
@@ -47,8 +33,8 @@ class SearchBar extends Component {
 		const searchRepositories = async (inputValue) => {
 			await getRepositories(inputValue).then(response => {
 				if (response) {
-					this.props.updateLoadingState(false);
 					const repos = response;
+					this.props.updateLoadingState(false);
 					this.props.updateSearchHistory(inputValue);
 					this.props.updateRepositories(repos);
 					this.props.updateFilteredRepos(repos);
