@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import "../styles/table.scss";
 import { connect } from 'react-redux';
-import { updateFilteredRepos, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory } from '../actions/rootactions';
+import { updateFilteredRepos, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from '../actions/rootactions';
 import { getRepositories } from '../services/RepositoryApi';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -30,6 +30,7 @@ class SearchBar extends Component {
 			let inputValue = e.target.value;
 			this.props.updateQueryInput(inputValue);
 			setTimeout(() => {
+				this.props.updateSelectedRepository({});
 				this.props.updateLoadingState(true);
 			}, 500);
 			await setTimeout(() => {
@@ -84,6 +85,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 	updateLoadingState: (loadingVal) => dispatch(updateLoadingState(loadingVal)),
 	updateRepositories: (repos) => dispatch(updateRepositories(repos)),
+	updateSelectedRepository: (repo) => dispatch(updateSelectedRepository(repo)),
 	updateFilteredRepos: (repos) => dispatch(updateFilteredRepos(repos)),
 	updateQueryInput: (inputValue) => dispatch(updateQueryInput(inputValue)),
 	updateSearchHistory: (inputValue) => dispatch(updateSearchHistory(inputValue)),
