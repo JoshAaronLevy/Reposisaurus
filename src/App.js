@@ -1,18 +1,22 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ScrollTop } from 'primereact/scrolltop';
+import { Provider } from "react-redux";
+import { initializeStore } from "./reducers/store";
+import { INITIALSTATE } from "./constants/InitialState";
 import "primeflex/primeflex.css";
 import './App.scss';
 
 import Home from './pages/Home';
-import Repository from './pages/Repository';
-import RepositoryState from './services/repository';
 import Header from './components/Header';
+import RepositoryContainer from './containers/RepositoryContainer';
 
+const store = initializeStore({ ...INITIALSTATE });
+console.log("Initial State: ", store);
 
 const App = () => {
 	return (
-		<RepositoryState>
+		<Provider store={store}>
 			<Router>
 				<Header />
 				<div className="App">
@@ -20,13 +24,14 @@ const App = () => {
 					<div className="container">
 						<Switch>
 							<Route exact path="/" component={Home} />
-							<Route exact path="/repo/:owner/:name" component={Repository} />
+							<Route exact path="/search/:queryInput" component={Home} />
+							<Route exact path="/repo/:owner/:name" component={RepositoryContainer} />
 						</Switch>
 						<ScrollTop target="parent" threshold={50} className="custom-scrolltop" icon="pi pi-arrow-up" />
 					</div>
 				</div>
 			</Router>
-		</RepositoryState>
+		</Provider>
 	);
 };
 

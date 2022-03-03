@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
-import Search from '../components/Search';
-import RepositoryTable from '../components/RepositoryTable';
+import SearchBar from '../constructors/SearchBar';
+import SearchTable from '../constructors/SearchTable';
 
 const Home = () =>
 	<Fragment>
-		<Search />
-		<RepositoryTable />
+		<SearchBar />
+		<SearchTable />
 	</Fragment>
 
 export default Home;

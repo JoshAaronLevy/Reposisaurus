@@ -1,24 +1,48 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import appContext from '../services/context';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Search = () => {
-	const [text, setText] = useState('');
-	const [loading, setLoading] = useState(false);
+	const [query, setQuery] = useState('');
 	const appState = useContext(appContext);
+	let loading = appState.loading;
+	const history = useHistory();
+	const currentQuery = appState.searchQuery.input;
+	const params = new URLSearchParams();
+	let { queryInput } = useParams();
+
+	useEffect(() => {
+		if (queryInput) {
+			setQuery(queryInput);
+		}
+	}, [queryInput]);
 
 	const onChange = e => {
-		setText(e.target.value);
+		setQuery(e.target.value);
 	}
 
 	const onSubmit = async (e) => {
-		await setLoading(true);
-		let searchResults = [];
 		e.preventDefault();
-		if (text) searchResults = await appState.searchRepos(text);
-		setText('');
-		await setLoading(false);
+		await appState.setLoading(true);
+		setQuery(query);
+		return getRepositories(query);
+	}
+
+	const getRepositories = async (queryInput) => {
+		let searchResults = [];
+		if (queryInput) {
+			params.append("queryInput", queryInput);
+			await appState.searchRepos(queryInput).then(response => {
+				if (response && response.data && response.data.items) {
+					searchResults = response.data.items;
+				}
+			});
+		} else {
+			params.delete("queryInput");
+		}
+		history.push(`/search/${queryInput}`);
 		return searchResults;
 	}
 
@@ -29,8 +53,8 @@ const Search = () => {
 					<span className="block text-3xl font-bold mb-4">Search GitHub Repositories</span>
 					<form onSubmit={onSubmit}>
 						<div className="p-inputgroup">
-							<InputText value={text} onChange={onChange} placeholder="Search Repos By Name..." />
-							<Button disabled={loading || !text} label="Search" />
+							<InputText value={query} onChange={onChange} placeholder="Search Repos By Name..." />
+							<Button disabled={loading || !query || (query === currentQuery)} label="Search" />
 						</div>
 					</form>
 				</section>

@@ -1,6 +1,8 @@
-import React, { useState, useContext, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import appContext from '../services/context';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FilterMatchMode } from 'primereact/api';
@@ -19,6 +21,14 @@ const RepositoryTable = () => {
 	const [globalFilterValue, setGlobalFilterValue] = useState('');
 	const toast = useRef(null);
 	let navigate = useHistory();
+	let loading = appState.loading;
+	let errorMsg = appState.error;
+	let filteredRepos = appState.filteredRepos;
+	const [filteredRepositories, setFilteredRepositories] = useState(null);
+	useEffect(() => {
+		setFilteredRepositories(repositories);
+		console.log("appState:", appState);
+	}, []);
 
 	const renderHeader = () => {
 		return (
@@ -34,12 +44,21 @@ const RepositoryTable = () => {
 
 	const onGlobalFilterChange = async (e) => {
 		const value = e.target.value;
-		const filteredRepos = fuzzysort.goAsync(value, repositories, { key: 'language' })
-		await filteredRepos.then(results => {
-			repositories = results;
-			setGlobalFilterValue(value);
-		});
-		await appState.searchRepos(value);
+		let formattedValue = value.toLowerCase().replace(/\s\s+/g, " ");
+		setGlobalFilterValue(value);
+		if (value && value.length > 0) {
+			appState.setSearchFilters(value);
+			filteredRepos = repositories.filter(repo => {
+				return repo.language && repo.language.toLowerCase().replace(/\s/g, "").includes(formattedValue.replace(/\s/g, ""));
+			});
+			setFilteredRepositories(filteredRepos);
+			appState.setRepositories(filteredRepos);
+		} else {
+			clearFilter();
+			setFilteredRepositories(repositories);
+			appState.setRepositories(repositories);
+		}
+		console.log(filteredRepositories);
 	}
 
 	const clearFilter = () => {
@@ -118,13 +137,14 @@ const RepositoryTable = () => {
 		});
 	}
 
-	if (repositories && repositories.length > 0) {
+	if (!loading && !errorMsg && (repositories && repositories.length > 0)) {
+		console.log(filteredRepositories);
 		return (
 			<div className='container-padded'>
 				<Toast ref={toast} position="bottom-right" />
 				<div className="card">
 					<DataTable
-						value={repositories}
+						value={filteredRepositories}
 						paginator
 						className="p-datatable-customers"
 						stripedRows
@@ -148,6 +168,16 @@ const RepositoryTable = () => {
 						<Column field="stargazers_count" header="Stars" sortable />
 					</DataTable>
 				</div>
+			</div>
+		);
+	} else if (loading && !errorMsg) {
+		return (
+			<ProgressSpinner />
+		);
+	} else if (errorMsg) {
+		return (
+			<div>
+				<h3>{errorMsg}</h3>
 			</div>
 		);
 	} else {

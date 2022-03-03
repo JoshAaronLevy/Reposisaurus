@@ -4,13 +4,13 @@ import appContext from './context';
 import repositoryReducer from '../reducers/repository';
 import {
 	SEARCH_REPOS,
+	SET_REPOS,
 	SET_LOADING,
 	SET_REPO,
 	SET_ERROR,
 	UPDATE_SEARCH_INPUT,
 	UPDATE_SEARCH_FILTERS,
 	UPDATE_SEARCH_SORT,
-	UPDATE_SEARCH_HISTORY,
 	UPDATE_RECENTLY_VIEWED
 } from '../utils/types';
 
@@ -18,12 +18,12 @@ const RepositoryState = props => {
 	const initialState = {
 		repositories: [],
 		filteredRepos: [],
-		selectedRepo: null,
+		selectedRepo: {},
 		loading: false,
-		error: false,
+		error: {},
 		searchQuery: {
-			input: null,
-			filter: null,
+			input: '',
+			filter: '',
 			sort: {
 				value: null,
 				direction: null
@@ -35,44 +35,56 @@ const RepositoryState = props => {
 
 	const [state, dispatch] = useReducer(repositoryReducer, initialState);
 
-	const searchRepos = (text) => {
-		const request = axios.get(`https://api.github.com/search/repositories?q=${text}`);
+	const searchRepos = (query) => {
+		const request = axios.get(`https://api.github.com/search/repositories?q=${query}`);
 		return request
 			.then((response) => {
 				if (response.status >= 200 && response.status < 300) {
 					setRepos(response.data.items);
-					setSearchInput(text);
-					setSearchHistory(text);
+					setSearchInput(query);
+				} else {
+					if (response.data.message) {
+						setError(response.data.message);
+					} else {
+						setError(response);
+					}
 				}
+				setLoading(false);
 				return response;
 			})
 			.catch(function (error) {
+				setError(error);
 				console.log(error);
 			});
 	};
 
-	const searchRepo = async (owner, repo) => {
+	const searchRepo = (owner, repo) => {
 		const request = axios.get(`https://api.github.com/repos/${owner}/${repo}`);
-		await request
+		return request
 			.then((response) => {
 				let selectedRepo = {};
 				if (response.status >= 200 && response.status < 300) {
-					selectedRepo = response.data;
 					setRepo(selectedRepo);
+				} else {
+					if (response.data.message) {
+						setError(response.data.message);
+					} else {
+						setError(response);
+					}
 				}
+				setLoading(false);
 				return selectedRepo;
 			})
 			.catch(function (error) {
+				setError(error);
 				console.log(error);
 			});
 	};
 
-	const setLoading = async () => await dispatch({ type: SET_LOADING });
-
-	const setSearchInput = async (text) => {
+	const setSearchInput = async (query) => {
 		await dispatch({
 			type: UPDATE_SEARCH_INPUT,
-			payload: text
+			payload: query
 		});
 	};
 
@@ -90,16 +102,16 @@ const RepositoryState = props => {
 		});
 	};
 
-	const setSearchHistory = async (text) => {
-		await dispatch({
-			type: UPDATE_SEARCH_HISTORY,
-			payload: text
-		});
-	};
-
 	const setRepos = async (repositories) => {
 		await dispatch({
 			type: SEARCH_REPOS,
+			payload: repositories
+		});
+	};
+
+	const setRepositories = async (repositories) => {
+		await dispatch({
+			type: SET_REPOS,
 			payload: repositories
 		});
 	};
@@ -118,10 +130,17 @@ const RepositoryState = props => {
 		});
 	};
 
-	const setError = async (error) => {
+	const setLoading = async (loadingState) => {
+		await dispatch({
+			type: SET_LOADING,
+			payload: loadingState
+		})
+	};
+
+	const setError = async (errorResponse) => {
 		await dispatch({
 			type: SET_ERROR,
-			payload: error
+			payload: errorResponse
 		});
 	};
 
@@ -129,6 +148,7 @@ const RepositoryState = props => {
 		value={
 			{
 				repositories: state.repositories,
+				filteredRepos: state.filteredRepos,
 				selectedRepo: state.selectedRepo,
 				loading: state.loading,
 				searchQuery: state.searchQuery,
@@ -137,7 +157,7 @@ const RepositoryState = props => {
 				setSearchInput,
 				setSearchFilters,
 				setSearchSort,
-				setSearchHistory,
+				setRepositories,
 				setRepo,
 				setViewedRepo,
 				setError,
