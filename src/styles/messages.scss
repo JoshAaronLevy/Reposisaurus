@@ -14,3 +14,21 @@
 .repository-toast {
 	z-index: 1020 !important;
 }
+
+@media (max-width: 760px) {
+	.repository-toast {
+		width: 100vw;
+		bottom: 200px;
+	}
+
+	.toast-description {
+		display: none;
+	}
+}
+
+@media (min-width: 761px) {
+	.repository-toast {
+		bottom: 0px;
+		right: 40px;
+	}
+}

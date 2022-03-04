@@ -49,3 +49,46 @@
 .toast-title {
 	margin: 8px 0px !important;
 }
+
+.repo-card-item {
+    background-color: #ffffff;
+    transition: background-color 0.5s;
+}
+
+.repo-card-item:hover {
+    cursor: pointer;
+    background-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+
+.repo-card-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.repo-stat {
+    display: flex;
+    align-items: center;
+    i {
+        font-size: 20px;
+        margin: 0px 5px 0px 0px;
+    }
+    p {
+        font-size: 18px;
+        margin: 0px;
+    }
+}
+
+.card-image img {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.filter-section {
+	display: flex;
+	// flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	text-align: center;
+}

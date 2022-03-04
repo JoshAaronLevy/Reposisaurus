@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import "../styles/table.scss";
 import { connect } from 'react-redux';
-import { updateFilteredRepos, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from '../actions/rootactions';
+import { updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from '../actions/rootactions';
 import { getRepositories } from '../services/RepositoryApi';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -20,13 +20,15 @@ class SearchBar extends Component {
 	render() {
 		const setSearchVal = async (e) => {
 			let inputValue = e.target.value;
-			this.props.updateQueryInput(inputValue);
+			this.setState({ searchInput: inputValue });
 		}
 
-		const submitSearch = (e, inputValue) => {
+		const submitSearch = (event, inputValue) => {
+			event.preventDefault();
 			this.props.updateLoadingState(true);
+			this.props.updateQueryInput(inputValue);
 			this.props.updateSelectedRepository({});
-			e.preventDefault();
+			this.props.updateFilterValue('');
 			searchRepositories(inputValue);
 		}
 
@@ -43,18 +45,16 @@ class SearchBar extends Component {
 		}
 
 		return (
-			<div className="grid surface-0 text-800 mb-5">
-				<div className="col-12 hero-section">
-					<section className='hero-search'>
-						<span className="block text-3xl font-bold mb-4">Search GitHub Repositories</span>
-						<form>
-							<div className="p-inputgroup">
-								<InputText value={this.props.inputVal} onChange={(e) => { setSearchVal(e) }} placeholder="Search Repos By Name..." />
-								<Button disabled={!this.props.inputVal || this.props.loading} type="button" onClick={(e) => { submitSearch(e, this.props.inputVal) }} label="Search" />
-							</div>
-						</form>
-					</section>
-				</div>
+			<div className="grid surface-0 text-800 mb-5 justify-content-center">
+				<section className='col-12 hero-section'>
+					<span className="block text-3xl font-bold mb-4">Search GitHub Repositories</span>
+					<form onSubmit={(event) => { submitSearch(event, this.state.searchInput) }}>
+						<div className="p-inputgroup search-form">
+							<InputText value={this.state.searchInput} onChange={(event) => { setSearchVal(event) }} placeholder="Search Repos By Name..." />
+							<Button disabled={!this.state.searchInput || this.props.loading || this.state.searchInput === this.props.inputVal} type="submit" label="Search" />
+						</div>
+					</form>
+				</section>
 			</div>
 		)
 	}
@@ -65,13 +65,14 @@ const mapStateToProps = (state) => ({
 	filteredRepos: state.filteredRepos,
 	loading: state.loading,
 	searchQuery: state.searchQuery,
-	inputVal: state.searchQuery.input,
+	inputVal: state.searchQuery.input
 });
 
 const mapDispatchToProps = (dispatch) => ({
 	updateLoadingState: (loadingVal) => dispatch(updateLoadingState(loadingVal)),
 	updateRepositories: (repos) => dispatch(updateRepositories(repos)),
 	updateSelectedRepository: (repo) => dispatch(updateSelectedRepository(repo)),
+	updateFilterValue: (filterValue) => dispatch(updateFilterValue(filterValue)),
 	updateFilteredRepos: (repos) => dispatch(updateFilteredRepos(repos)),
 	updateQueryInput: (inputValue) => dispatch(updateQueryInput(inputValue)),
 	updateSearchHistory: (inputValue) => dispatch(updateSearchHistory(inputValue)),

@@ -28,6 +28,7 @@ class SearchTable extends Component {
 
 		this.imageBodyTemplate = this.imageBodyTemplate.bind(this);
 		this.dateTransformTemplate = this.dateTransformTemplate.bind(this);
+		this.actionsTemplate = this.actionsTemplate.bind(this);
 	}
 
 	componentDidMount() {
@@ -62,6 +63,7 @@ class SearchTable extends Component {
 	}
 
 	clearFilter() {
+		this.props.updateFilterValue('');
 		this.initFilters();
 	}
 
@@ -102,6 +104,20 @@ class SearchTable extends Component {
 		}
 	}
 
+	viewRepository(rowData) {
+		console.log(rowData);
+	}
+
+	showButton(rowData) {
+		return (
+			<Button className='p-button-sm' type='button' onClick={() => { this.viewRepository(rowData) }}>View</Button>
+		)
+	}
+
+	actionsTemplate(rowData) {
+		return this.showButton(rowData);
+	}
+
 	render() {
 		const header = (
 			<div className="flex justify-content-end">
@@ -133,21 +149,17 @@ class SearchTable extends Component {
 									stripedRows
 									rows={15}
 									dataKey="id"
-									selectionMode="single"
-									selection={this.state.selectedRepository}
 									responsiveLayout="scroll"
 									globalFilterFields={['language']}
 									header={header}
 									emptyMessage="No repositories found."
-									onRowSelect={e => this.selectRepository(e)}
-									onRowUnselect={e => this.selectRepository(e)}
 									removableSort>
-									<Column selectionMode="single" headerStyle={{ width: '2em' }}></Column>
 									<Column field="name" header="Name"></Column>
 									<Column field="owner.login" header="Owner"></Column>
-									<Column field="created_at" header="Created On" body={this.dateTransformTemplate}></Column>
+									<Column field="created_at" header="Created" body={this.dateTransformTemplate}></Column>
 									<Column field="language" header="Language"></Column>
 									<Column field="stargazers_count" header="Stars" sortable></Column>
+									<Column header="Actions" body={this.actionsTemplate}></Column>
 								</DataTable>
 							</div>
 						</div>

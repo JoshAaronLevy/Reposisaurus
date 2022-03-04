@@ -42,11 +42,11 @@ const RepositoryToast = ({
 						<div className="text-center">
 							<h3 className='toast-title'>{selectedRepo.name} by {selectedRepo.owner.login}</h3>
 							{selectedRepo.description && (
-								<p>{displayDescription}</p>
+								<p className='toast-description'>{displayDescription}</p>
 							)}
 						</div>
 						<div className="grid p-fluid flex justify-content-around">
-							<div className="col-4">
+							<div className="col-6">
 								<Button
 									type="button"
 									label="View Repo"
@@ -79,7 +79,7 @@ const RepositoryToast = ({
 
 	return (
 		<div>
-			<Toast ref={toast} position="bottom-right" className='repository-toast' />
+			<Toast ref={toast} position="bottom" className='repository-toast' />
 		</div>
 	)
 }
