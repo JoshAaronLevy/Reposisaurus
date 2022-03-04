@@ -3,7 +3,7 @@ const INITIALSTATE = {
 	filteredRepos: [],
 	selectedRepo: {},
 	loading: false,
-	error: {},
+	error: null,
 	searchQuery: {
 		input: '',
 		filter: '',

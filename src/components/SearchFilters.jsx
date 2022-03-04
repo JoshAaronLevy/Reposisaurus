@@ -8,7 +8,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 
-class SearchToolbar extends Component {
+class SearchFilters extends Component {
 	constructor(props) {
 		super(props);
 
@@ -61,7 +61,6 @@ class SearchToolbar extends Component {
 					return b.stargazers_count - a.stargazers_count;
 				});
 			}
-			console.log(sortedRepositories);
 			this.props.updateFilteredRepos([]);
 			this.props.updateFilteredRepos(sortedRepositories);
 		}
@@ -101,4 +100,4 @@ const mapDispatchToProps = (dispatch) => ({
 	updateSearchHistory: (inputValue) => dispatch(updateSearchHistory(inputValue)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchToolbar);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchFilters);

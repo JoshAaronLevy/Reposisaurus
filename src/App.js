@@ -24,7 +24,7 @@ const App = () => {
 					<div className="container">
 						<Switch>
 							<Route exact path="/" component={Home} />
-							<Route exact path="/search/:queryInput" component={Home} />
+							<Route exact path="/?name=:queryInput" component={Home} />
 							<Route exact path="/repo/:owner/:name" component={RepositoryContainer} />
 						</Switch>
 						<ScrollTop target="parent" threshold={50} className="custom-scrolltop" icon="pi pi-arrow-up" />

@@ -19,7 +19,6 @@ const Repository = ({
 	const getRepoFromUrl = useCallback(
 		() => {
 			getRepository(owner, name).then(response => {
-				console.log(response);
 				if (response.data && response.data.id) {
 					updateLoadingState(false);
 					updateSelectedRepository(response.data);
@@ -35,12 +34,15 @@ const Repository = ({
 				return getRepoFromUrl(owner, name);
 			} else {
 				updateLoadingState(false);
-				console.warn("Uh oh! No repo could be found!");
 			}
 		} else {
 			return selectedRepo;
 		}
 	}, [loading, name, owner, selectedRepo, updateLoadingState, getRepoFromUrl]);
+
+	const selectRepository = async (selectedRepo) => {
+		window.location.href = `https://github.com/${selectedRepo.owner.login}/${selectedRepo.name}`;
+	}
 
 	if (!loading && (selectedRepo && selectedRepo.id)) {
 		return (
@@ -57,8 +59,7 @@ const Repository = ({
 								)
 							})}
 						</div>
-						<Button label="Source" type="button" icon="pi pi-github" className="mr-3 p-button-raised" />
-						<Button label="Live Demo" type="button" className="p-button-outlined" />
+						<Button label="Source" type="button" icon="pi pi-github" className="mr-3 p-button-raised" onClick={() => { selectRepository(selectedRepo) }} />
 					</section>
 				</div>
 				<div className="col-12 md:col-6 overflow-hidden">
