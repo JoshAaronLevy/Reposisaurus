@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "miragejs": "^0.1.43",
-    "msw": "^0.38.1",
     "node-sass": "^7.0.1"
   },
   "browserslist": {

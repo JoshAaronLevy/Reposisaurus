@@ -2,6 +2,20 @@
 
 This app lets you search, filter, and view GitHub Repositories
 
+## Core Stack
+
+- React v17
+- Redux v7
+- [Primereact UI v7](https://www.primefaces.org/primereact)
+- [React Router v5](https://v5.reactrouter.com/)
+
+## In Development
+
+Watch this repository in GitHub for the following updates in development:
+
+- Mocks with [Mirage.js](https://miragejs.com/) to add additional unit tests with Jest
+- e2e testing with [Cypress.io](https://www.cypress.io/)
+
 ## Running the App Locally
 
 **NOTE:** If you're running the app for the first time, do the following steps:
@@ -21,4 +35,3 @@ If the `npm run initiate` command fails, first make sure you're on node version 
 If you are on a compatible node version, you should also be able to start the development server with the following command:
 
 `npm i && npm start`
-
