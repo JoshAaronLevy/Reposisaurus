@@ -50,8 +50,7 @@ class SearchToolbar extends Component {
 		}
 
 		const onSortChange = (e) => {
-			console.log(e);
-			this.setState({ selectedSortOption: e.value.name });
+			this.setState({ selectedSortOption: e.value });
 			let sortedRepositories = this.props.repositories;
 			if (e.value.name === 'Stars - Low to High') {
 				sortedRepositories.sort(function (a, b) {
@@ -63,6 +62,7 @@ class SearchToolbar extends Component {
 				});
 			}
 			console.log(sortedRepositories);
+			this.props.updateFilteredRepos([]);
 			this.props.updateFilteredRepos(sortedRepositories);
 		}
 
