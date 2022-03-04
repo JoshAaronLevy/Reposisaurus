@@ -1,60 +1,24 @@
-# Getting Started with Create React App
+# RepoRunner
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app lets you search, filter, and view GitHub Repositories
 
-## Available Scripts
+## Running the App Locally
 
-In the project directory, you can run:
+**NOTE:** If you're running the app for the first time, do the following steps:
 
-### `npm start`
+1. `git clone https://github.com/JoshAaronLevy/repo-runner.git`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. `cd repo-runner`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. `npm run initiate`
 
-### `npm test`
+The `npm run initiate` command will install all dependencies, run tests, build the project, and start a server on `http://localhost:3000/`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Additional Setup Comments
 
-### `npm run build`
+If the `npm run initiate` command fails, first make sure you're on node version 14 or newer by running `node -v`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you are on a compatible node version, you should also be able to start the development server with the following command:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`npm i && npm start`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
