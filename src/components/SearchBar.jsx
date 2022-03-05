@@ -42,22 +42,22 @@ const SearchBar = ({
 
 	const selectFromHistory = (event) => {
 		let inputValue = event.value;
-		resetSearch(inputValue);
+		initiateSearch(inputValue);
 	}
 
 	const keyUpAction = (event) => {
 		event.preventDefault();
 		if (event.code === "Enter" && query !== inputVal) {
-			resetSearch(query);
+			initiateSearch(query);
 		}
 	}
 
 	const submitSearch = (event, inputValue) => {
 		event.preventDefault();
-		resetSearch(inputValue);
+		initiateSearch(inputValue);
 	}
 
-	const resetSearch = (inputValue) => {
+	const initiateSearch = (inputValue) => {
 		updateLoadingState(true);
 		updateQueryInput(inputValue);
 		updateSelectedRepository({});
