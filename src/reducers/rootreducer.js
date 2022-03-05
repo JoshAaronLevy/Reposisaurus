@@ -47,6 +47,8 @@ export const rootReducer = createReducer([], {
 		let newQueryState = lodash.cloneDeep(state.searchQuery);
 		const newVal = action.queryVal;
 		newQueryState.history.unshift(newVal);
+		let uniqueHistoryValues = [...new Set(newQueryState.history)];
+		newQueryState.history = uniqueHistoryValues;
 		return Object.assign({}, state, {
 			searchQuery: newQueryState,
 		});

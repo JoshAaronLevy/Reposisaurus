@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { InputText } from 'primereact/inputtext';
+import { AutoComplete } from 'primereact/autocomplete';
 import { Button } from 'primereact/button';
 import { useHistory, useParams } from 'react-router-dom';
 import { getRepositories } from '../services/RepositoryApi';
@@ -7,6 +7,7 @@ import { getRepositories } from '../services/RepositoryApi';
 const SearchBar = ({
 	loading,
 	inputVal,
+	searchHistory,
 	updateLoadingState,
 	updateQueryInput,
 	updateSelectedRepository,
@@ -16,6 +17,7 @@ const SearchBar = ({
 	updateRepositories
 }) => {
 	const [query, setQuery] = useState('');
+	const [queryOptions, setQueryOptions] = useState([]);
 	const history = useHistory();
 	let { search } = useParams();
 
@@ -34,8 +36,28 @@ const SearchBar = ({
 		setQuery(inputValue);
 	}
 
+	const filterQueries = (event) => {
+		setQueryOptions(searchHistory);
+	}
+
+	const selectFromHistory = (event) => {
+		let inputValue = event.value;
+		resetSearch(inputValue);
+	}
+
+	const keyUpAction = (event) => {
+		event.preventDefault();
+		if (event.code === "Enter" && query !== inputVal) {
+			resetSearch(query);
+		}
+	}
+
 	const submitSearch = (event, inputValue) => {
 		event.preventDefault();
+		resetSearch(inputValue);
+	}
+
+	const resetSearch = (inputValue) => {
 		updateLoadingState(true);
 		updateQueryInput(inputValue);
 		updateSelectedRepository({});
@@ -61,7 +83,7 @@ const SearchBar = ({
 				<span className="block text-3xl font-bold mb-4">Search GitHub Repositories</span>
 				<form onSubmit={(event) => { submitSearch(event, query) }}>
 					<div className="p-inputgroup search-form">
-						<InputText value={query} onChange={(event) => { setSearchVal(event) }} placeholder="Search Repos By Name..." />
+						<AutoComplete value={query} suggestions={queryOptions} completeMethod={filterQueries} onChange={(event) => { setSearchVal(event) }} onSelect={(event) => { selectFromHistory(event) }} onKeyUp={(event) => { keyUpAction(event, query) }} placeholder="Search by Repo Name..." />
 						<Button disabled={!query || loading || query === inputVal} type="submit" label="Search" />
 					</div>
 				</form>

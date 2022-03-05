@@ -7,6 +7,7 @@ const mapStateToProps = (state) => ({
 	filteredRepos: state.filteredRepos,
 	loading: state.loading,
 	searchQuery: state.searchQuery,
+	searchHistory: state.searchQuery.history,
 	inputVal: state.searchQuery.input
 });
 
