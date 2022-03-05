@@ -31,9 +31,9 @@ const RepositoryList = ({
 				<div className="grid">
 					{filteredRepos.map((repo) => {
 						return (
-							<div key={repo.id} className="col-12 md:col-6 lg:col-4 repo-card" onClick={() => { selectRepository(repo) }}>
+							<div key={repo.id} className="col-12 md:col-6 lg:col-4 repo-card">
 								<Tooltip target=".tooltip-target"></Tooltip>
-								<div className="surface-0 shadow-2 p-2 border-round repo-card-item">
+								<div className="surface-0 shadow-2 p-2 border-round repo-card-item" onClick={() => { selectRepository(repo) }}>
 									<div className="flex justify-content-between align-items-center mb-3">
 										<div className='card-title-container'>
 											<div className="text-900 font-medium text-xl mb-1 pl-3 text-left">{repo.name}</div>
