@@ -12,7 +12,6 @@ import Header from './components/Header';
 import RepositoryContainer from './containers/RepositoryContainer';
 
 const store = initializeStore({ ...INITIALSTATE });
-console.log("Initial State: ", store);
 
 const App = () => {
 	return (

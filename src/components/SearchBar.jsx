@@ -18,6 +18,7 @@ const SearchBar = ({
 }) => {
 	const [query, setQuery] = useState('');
 	const [queryOptions, setQueryOptions] = useState([]);
+	const [searchDisabled, setSearchDisabled] = useState(true);
 	const history = useHistory();
 	let { search } = useParams();
 
@@ -29,6 +30,11 @@ const SearchBar = ({
 			params.delete("name");
 		}
 		history.push({ search: params.toString() });
+		if (!query || query === inputVal) {
+			setSearchDisabled(true);
+		} else {
+			setSearchDisabled(false);
+		}
 	}, [query, inputVal, history, search]);
 
 	const setSearchVal = async (e) => {
@@ -84,7 +90,7 @@ const SearchBar = ({
 				<form onSubmit={(event) => { submitSearch(event, query) }}>
 					<div className="p-inputgroup search-form">
 						<AutoComplete value={query} suggestions={queryOptions} completeMethod={filterQueries} onChange={(event) => { setSearchVal(event) }} onSelect={(event) => { selectFromHistory(event) }} onKeyUp={(event) => { keyUpAction(event, query) }} placeholder="Search by Repo Name..." />
-						<Button disabled={!query || loading || query === inputVal} type="submit" label="Search" />
+						<Button className='search-button' disabled={searchDisabled} type="submit" label="Search" />
 					</div>
 				</form>
 			</section>
