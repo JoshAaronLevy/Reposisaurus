@@ -1,5 +1,5 @@
 import axios from "axios";
-import { updateErrorState, updateLoadingState } from "../actions/rootactions";
+import { updateErrorState, updateLoadingState, updateWarningState } from "../actions/rootactions";
 import { getStore } from "../reducers/store";
 
 export const getRepositories = (inputValue) => {
@@ -8,12 +8,20 @@ export const getRepositories = (inputValue) => {
 	return request
 		.then((response) => {
 			if (response.status >= 200 && response.status < 300) {
+				if (response.data.items.length === 0) {
+					store.dispatch(updateWarningState("No repositories found! But don't give up. Try again."));
+				} else {
+					store.dispatch(updateWarningState(null));
+					store.dispatch(updateErrorState(null));
+				}
 				return response.data.items;
 			} else {
 				if (response.data.message) {
 					console.error(response.data.message);
+					store.dispatch(updateErrorState(response.data.message));
 				} else {
 					console.error(response);
+					store.dispatch(updateErrorState(response));
 				}
 			}
 			return response;
@@ -32,11 +40,15 @@ export const getRepository = (owner, repo) => {
 			let selectedRepo = {};
 			if (response.status >= 200 && response.status < 300) {
 				selectedRepo = response;
+				store.dispatch(updateWarningState(null));
+				store.dispatch(updateErrorState(null));
 			} else {
 				if (response.data.message) {
 					console.error(response.data.message);
+					store.dispatch(updateErrorState(response.data.message));
 				} else {
 					console.error(response);
+					store.dispatch(updateErrorState(response));
 				}
 			}
 			return selectedRepo;

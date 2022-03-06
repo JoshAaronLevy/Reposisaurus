@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from '../actions/rootactions';
+import { clearMessages, updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from '../actions/rootactions';
 import SearchBar from "../components/SearchBar";
 
 const mapStateToProps = (state) => ({
@@ -19,6 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
 	updateFilteredRepos: (repos) => dispatch(updateFilteredRepos(repos)),
 	updateQueryInput: (inputValue) => dispatch(updateQueryInput(inputValue)),
 	updateSearchHistory: (inputValue) => dispatch(updateSearchHistory(inputValue)),
+	clearMessages: () => dispatch(clearMessages()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

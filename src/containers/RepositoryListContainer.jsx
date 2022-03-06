@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from "../actions/rootactions";
+import { clearMessages, updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from "../actions/rootactions";
 import RepositoryList from "../components/RepositoryList";
 
 const mapStateToProps = (state) => ({
@@ -10,7 +10,8 @@ const mapStateToProps = (state) => ({
 	searchQuery: state.searchQuery,
 	inputVal: state.searchQuery.input,
 	filterVal: state.searchQuery.filter,
-	errorMsg: state.error
+	warningMessage: state.warning,
+	errorMessage: state.error
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -21,6 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
 	updateSearchHistory: (inputValue) => dispatch(updateSearchHistory(inputValue)),
 	updateSelectedRepository: (repo) => dispatch(updateSelectedRepository(repo)),
 	updateFilterValue: (filterValue) => dispatch(updateFilterValue(filterValue)),
+	clearMessages: () => dispatch(clearMessages()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RepositoryList);

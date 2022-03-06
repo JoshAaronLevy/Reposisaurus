@@ -21,6 +21,20 @@ export const rootReducer = createReducer([], {
 		const errorVal = action.error;
 		return Object.assign({}, state, {
 			error: errorVal,
+			warning: null,
+		});
+	},
+	UPDATE_WARNING_STATE: (state, action) => {
+		const warningVal = action.warning;
+		return Object.assign({}, state, {
+			error: null,
+			warning: warningVal,
+		});
+	},
+	CLEAR_MESSAGES: (state) => {
+		return Object.assign({}, state, {
+			error: null,
+			warning: null,
 		});
 	},
 	UPDATE_REPOSITORIES: (state, action) => {

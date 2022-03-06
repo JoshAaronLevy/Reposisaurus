@@ -4,6 +4,7 @@ const INITIALSTATE = {
 	selectedRepo: {},
 	loading: false,
 	error: null,
+	warning: null,
 	searchQuery: {
 		input: '',
 		filter: '',

@@ -8,6 +8,15 @@ export const updateErrorState = (errorVal) => ({
 	error: errorVal
 });
 
+export const updateWarningState = (warningVal) => ({
+	type: "UPDATE_WARNING_STATE",
+	warning: warningVal
+});
+
+export const clearMessages = () => ({
+	type: "CLEAR_MESSAGES"
+});
+
 export const updateRepositories = (repos) => ({
 	type: "UPDATE_REPOSITORIES",
 	repositories: repos

@@ -14,28 +14,21 @@ const SearchBar = ({
 	updateFilterValue,
 	updateFilteredRepos,
 	updateSearchHistory,
-	updateRepositories
+	updateRepositories,
+	clearMessages
 }) => {
 	const [query, setQuery] = useState('');
 	const [queryOptions, setQueryOptions] = useState([]);
 	const [searchDisabled, setSearchDisabled] = useState(true);
 	const history = useHistory();
-	let { search } = useParams();
 
 	useEffect(() => {
-		const params = new URLSearchParams();
-		if (query) {
-			params.append("name", query);
-		} else {
-			params.delete("name");
-		}
-		history.push({ search: params.toString() });
-		if (!query || query === inputVal) {
+		if (!query || query === inputVal || loading) {
 			setSearchDisabled(true);
 		} else {
 			setSearchDisabled(false);
 		}
-	}, [query, inputVal, history, search]);
+	}, [loading, query, inputVal]);
 
 	const setSearchVal = async (e) => {
 		let inputValue = e.target.value;
@@ -64,6 +57,7 @@ const SearchBar = ({
 	}
 
 	const initiateSearch = (inputValue) => {
+		clearMessages();
 		updateLoadingState(true);
 		updateQueryInput(inputValue);
 		updateSelectedRepository({});
@@ -72,6 +66,13 @@ const SearchBar = ({
 	}
 
 	const searchRepositories = async (inputValue) => {
+		const params = new URLSearchParams();
+		if (query) {
+			params.append("name", query);
+		} else {
+			params.delete("name");
+		}
+		history.push({ search: params.toString() });
 		await getRepositories(inputValue).then(response => {
 			if (response) {
 				const repos = response;
@@ -86,10 +87,10 @@ const SearchBar = ({
 	return (
 		<div className="grid surface-0 text-800 mb-5 justify-content-center">
 			<section className='col-12 hero-section'>
-				<span className="block text-3xl font-bold mb-4">Search GitHub Repositories</span>
+				<span className="block text-3xl font-bold mb-4 hero-title">Search GitHub Repositories</span>
 				<form onSubmit={(event) => { submitSearch(event, query) }}>
 					<div className="p-inputgroup search-form">
-						<AutoComplete value={query} suggestions={queryOptions} completeMethod={filterQueries} onChange={(event) => { setSearchVal(event) }} onSelect={(event) => { selectFromHistory(event) }} onKeyUp={(event) => { keyUpAction(event, query) }} placeholder="Search by Repo Name..." />
+						<AutoComplete id='repoSearch' value={query} suggestions={queryOptions} completeMethod={filterQueries} onChange={(event) => { setSearchVal(event) }} onSelect={(event) => { selectFromHistory(event) }} onKeyUp={(event) => { keyUpAction(event, query) }} placeholder="Search by Repo Name..." />
 						<Button className='search-button' disabled={searchDisabled} type="submit" label="Search" />
 					</div>
 				</form>

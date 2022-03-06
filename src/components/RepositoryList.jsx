@@ -5,6 +5,7 @@ import "../styles/table.scss";
 import Moment from 'react-moment';
 import SearchFilters from './SearchFilters';
 import { Tooltip } from 'primereact/tooltip';
+import MessageContainer from '../containers/MessageContainer';
 
 const RepositoryList = ({
 	loading,
@@ -12,7 +13,9 @@ const RepositoryList = ({
 	filteredRepos,
 	updateSelectedRepository,
 	updateFilteredRepos,
-	errorMsg
+	warningMessage,
+	errorMessage,
+	clearMessages
 }) => {
 	let navigate = useHistory();
 	useEffect(() => {
@@ -21,10 +24,11 @@ const RepositoryList = ({
 
 	const selectRepository = async (selectedRepo) => {
 		updateSelectedRepository(selectedRepo);
+		clearMessages();
 		navigate.push(`/repo/${selectedRepo.owner.login}/${selectedRepo.name}`);
 	}
 
-	if (!loading && !errorMsg && (repositories && repositories.length > 0)) {
+	if (!loading && (!warningMessage || !errorMessage) && (repositories && repositories.length > 0)) {
 		return (
 			<div className='container-padded'>
 				<SearchFilters />
@@ -63,15 +67,13 @@ const RepositoryList = ({
 				</div>
 			</div>
 		);
-	} else if (loading && !errorMsg) {
+	} else if (loading && (!warningMessage || !errorMessage)) {
 		return (
 			<ProgressSpinner />
 		);
-	} else if (errorMsg) {
+	} else if (!loading && (warningMessage || errorMessage)) {
 		return (
-			<div>
-				<h3>{errorMsg}</h3>
-			</div>
+			<MessageContainer />
 		);
 	} else {
 		return (
