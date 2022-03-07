@@ -33,29 +33,31 @@
 
 3. `npm i`
 
-- (Optional) Ensure tests pass with Cypress
-4. `npm run e2e`
-
 - (Optional) Check build succeeds
-5. `npm run build`
+4. `npm run build`
 
-6. `npm start`
+5. `npm start`
+
+- (Optional) Ensure tests pass with Cypress
+6. `npm run e2e`
 
 ## Tests
 
 This repo is configured for both integration and end-to-end tests
 
-Integration tests implemented with `@testing-library/react`
+### Integration tests implemented with `@testing-library/react`
 
 Integration test files can be located in [`src/tests`](src/tests/) folder
 
 **NOTE:** Integration tests currently failing but can be run with the `npm run test` command
 
-e2e tests implemented with `@cypress/react`
+### e2e tests implemented with `@cypress/react`
 
 e2e test files can be located in [`cypress/integration/tests`](cypress/integration/tests/) folder
 
 **NOTE:** e2e tests currently succeeding and can be run with the `npm run e2e` command
+
+**NOTE:** Cypress is configured to use `http://localhost:3000` as the baseUrl. To run the e2e tests, you must first have run `npm start`, then run the `npm run e2e` command in a separate terminal
 
 ## In Development
 
