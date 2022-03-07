@@ -8,9 +8,14 @@
 
 ## Table of Contents
 - [Core Stack](#core-stack)
+- [View Live Demo](#view-live-demo)
 - [Running the App Locally](#running-the-app-locally)
 - [Tests](#tests)
 - [In Development](#in-development)
+
+## View Live Demo
+
+A live demo of this project is hosted on Firebase and can be found at [https://repo-runner.web.app/](https://repo-runner.web.app/)
 
 ## Core Stack
 
