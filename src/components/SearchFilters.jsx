@@ -24,29 +24,29 @@ class SearchFilters extends Component {
 	}
 
 	render() {
+		const { updateFilterValue, updateFilteredRepos } = this.props;
 		const setFilterVal = (e) => {
 			let inputValue = e.target.value;
 			this.setState({ filterInput: inputValue });
 			let formattedValue = inputValue.toLowerCase().replace(/\s\s+/g, " ");
-			if (inputValue && inputValue.length > 0) {
-				this.props.updateFilterValue(inputValue);
+			if (inputValue && inputValue.length >= 0) {
+				updateFilterValue(inputValue);
 				let filteredRepositories = this.props.repositories.filter(repo => {
 					return repo.language && repo.language.toLowerCase().replace(/\s/g, "").includes(formattedValue.replace(/\s/g, ""));
 				});
-				this.props.updateFilteredRepos(filteredRepositories);
+				updateFilteredRepos(filteredRepositories);
 			} else {
-				this.clearFilter();
-				this.props.updateFilteredRepos(this.props.repositories);
+				clearFilterVal(e);
+				updateFilteredRepos(this.props.repositories);
 			}
-			console.log(this.props.filteredRepos);
 		}
 
 		const clearFilterVal = (event) => {
 			event.preventDefault();
 			let inputValue = '';
 			this.setState({ filterInput: inputValue });
-			this.props.updateFilteredRepos(this.props.repositories);
-			this.props.updateFilterValue(inputValue);
+			updateFilteredRepos(this.props.repositories);
+			updateFilterValue(inputValue);
 		}
 
 		const onSortChange = (e) => {
@@ -61,19 +61,19 @@ class SearchFilters extends Component {
 					return b.stargazers_count - a.stargazers_count;
 				});
 			}
-			this.props.updateFilteredRepos([]);
-			this.props.updateFilteredRepos(sortedRepositories);
+			updateFilteredRepos([]);
+			updateFilteredRepos(sortedRepositories);
 		}
 
 		return (
 			<div className="grid text-800 mb-1 justify-content-end">
 				<section className='col-12 filter-section'>
-					<div className="col-3 p-inputgroup filter-form">
+					<div className="p-inputgroup filter-form xs:col-9 sm:col-8 md:col-6 lg:col-3">
 						<InputText value={this.state.filterInput} onChange={(event) => { setFilterVal(event) }} placeholder="Filter by Language" />
 						<Button disabled={!this.props.filterValue} type="button" label="Clear" className="p-button-danger" onClick={(event) => { clearFilterVal(event) }} />
 					</div>
-					<div className="col-2 p-inputgroup sort-select">
-						<Dropdown value={this.state.selectedSortOption} options={this.sortOptions} onChange={(event) => { onSortChange(event) }} optionLabel="name" placeholder="Sort Results" />
+					<div className="p-inputgroup sort-select xs:col-3 sm:col-4 md:col-6 lg:col-3">
+						<Dropdown value={this.state.selectedSortOption} options={this.sortOptions} onChange={(event) => { onSortChange(event) }} optionLabel="name" placeholder="Sort" />
 					</div>
 				</section>
 			</div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AutoComplete } from 'primereact/autocomplete';
 import { Button } from 'primereact/button';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { getRepositories } from '../services/RepositoryApi';
 
 const SearchBar = ({
@@ -66,6 +66,7 @@ const SearchBar = ({
 	}
 
 	const searchRepositories = async (inputValue) => {
+		let repos = [];
 		const params = new URLSearchParams();
 		if (query) {
 			params.append("name", query);
@@ -75,9 +76,11 @@ const SearchBar = ({
 		history.push({ search: params.toString() });
 		await getRepositories(inputValue).then(response => {
 			if (response) {
-				const repos = response;
+				repos = response;
+				if (response.length > 0) {
+					updateSearchHistory(inputValue);
+				}
 				updateLoadingState(false);
-				updateSearchHistory(inputValue);
 				updateRepositories(repos);
 				updateFilteredRepos(repos);
 			}

@@ -47,10 +47,13 @@ const Repository = ({
 	if (!loading && (selectedRepo && selectedRepo.id)) {
 		return (
 			<div className="grid grid-nogutter surface-0 text-800 hero-container">
-				<div className="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center">
-					<section>
+				<div className="col-12 md:col-6 text-center md:text-left flex align-items-center">
+					<section className="repo-description">
 						<div className="text-6xl text-primary font-bold mb-3">{selectedRepo.name}</div>
-						<span className="block text-3xl font-bold mb-1">by {selectedRepo.owner.login}</span>
+						<div className="col-12 md:col-6 overflow-hidden repo-owner-image md-hidden lg-hidden xl-hidden">
+							<img src={selectedRepo.owner.avatar_url} alt="small-avatar" className="md:ml-auto block md:h-full repo-avatar" />
+						</div>
+						<span className="block text-3xl font-bold mb-1">{selectedRepo.owner.login}</span>
 						<p className="mt-0 mb-4 text-700 line-height-3">{selectedRepo.description}</p>
 						<div className="flex align-items-center flex-wrap mb-3">
 							{selectedRepo.topics.map((topic) => {
@@ -59,11 +62,11 @@ const Repository = ({
 								)
 							})}
 						</div>
-						<Button label="Source" type="button" icon="pi pi-github" className="mr-3 p-button-raised" onClick={() => { selectRepository(selectedRepo) }} />
+						<Button label="Source" type="button" icon="pi pi-github" className="mb-3 p-button-raised" onClick={() => { selectRepository(selectedRepo) }} />
 					</section>
 				</div>
-				<div className="col-12 md:col-6 overflow-hidden">
-					<img src={selectedRepo.owner.avatar_url} alt="hero-1" className="md:ml-auto block md:h-full" style={{ clipPath: 'polygon(8% 0, 100% 0%, 100% 100%, 0 100%)' }} />
+				<div className="col-12 md:col-6 overflow-hidden repo-owner-image xs-hidden">
+					<img src={selectedRepo.owner.avatar_url} alt="large-avatar" className="md:ml-auto block md:h-full repo-avatar" />
 				</div>
 			</div>
 		)
