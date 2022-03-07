@@ -1,3 +1,69 @@
-.hero-container {
-	padding: 0px 80px !important;
+@media (max-width: 540px) {
+	.xs-hidden {
+		display: none !important;
+	}
+
+	.hero-container {
+		padding: 0px 30px !important;
+	}
+
+	.repo-owner-image {
+		display: flex;
+		justify-content: center;
+		img {
+			max-height: 125px;
+		}
+	}
+}
+
+@media (min-width: 541px) and (max-width: 767px) {
+	.sm-hidden {
+		display: none !important;
+	}
+
+	.hero-container {
+		padding: 0px 30px !important;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+	.md-hidden {
+		display: none !important;
+	}
+
+	.hero-container {
+		padding: 0px 60px !important;
+	}
+
+	.repo-description {
+		padding-right: 1.5rem !important;
+	}
+
+	.repo-owner-image {
+		max-height: 300px;
+	}
+
+	.repo-owner-image img {
+		clip-path: 'polygon(8% 0, 100% 0%, 100% 100%, 0 100%)';
+	}
+}
+
+@media (min-width: 1280px) and (max-width: 1919px) {
+	.lg-hidden {
+		display: none !important;
+	}
+
+	.hero-container {
+		padding: 0px 40px !important;
+	}
+}
+
+@media (min-width: 1920px) {
+	.xl-hidden {
+		display: none !important;
+	}
+
+	.hero-container {
+		padding: 0px 60px !important;
+	}
 }

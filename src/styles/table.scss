@@ -1,46 +1,3 @@
-.datatable-filter-demo .p-paginator .p-paginator-current {
-    margin-left: auto;
-}
-
-.datatable-filter-demo .p-progressbar {
-    height: 0.5rem;
-    background-color: #d8dadc;
-}
-
-.datatable-filter-demo .p-progressbar .p-progressbar-value {
-    background-color: #607d8b;
-}
-
-.datatable-filter-demo .p-datepicker {
-    min-width: 25rem;
-}
-
-.datatable-filter-demo .p-datepicker td {
-    font-weight: 400;
-}
-
-.datatable-filter-demo .p-datatable.p-datatable-customers .p-datatable-header {
-    padding: 1rem;
-    text-align: left;
-    font-size: 1.5rem;
-}
-
-.datatable-filter-demo .p-datatable.p-datatable-customers .p-paginator {
-    padding: 1rem;
-}
-
-.datatable-filter-demo .p-datatable.p-datatable-customers .p-datatable-thead > tr > th {
-    text-align: left;
-}
-
-.datatable-filter-demo .p-datatable.p-datatable-customers .p-datatable-tbody > tr > td {
-    cursor: auto;
-}
-
-.datatable-filter-demo .p-datatable.p-datatable-customers .p-dropdown-label:not(.p-placeholder) {
-    text-transform: uppercase;
-}
-
 .p-toast {
 	width: 30rem !important;
 	opacity: 1 !important;
@@ -84,13 +41,29 @@
     height: 2.5rem;
 }
 
-.filter-section {
-	display: flex;
-	// flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-	text-align: center;
+@media (max-width: 540px) {
+	.filter-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        padding: 0.5rem 0rem;
+    }
+
+    .sort-select {
+        width: 33%;
+    }
+}
+
+@media (min-width: 541px) {
+	.filter-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem 0rem;
+    }
 }
 
 .sort-select span {
