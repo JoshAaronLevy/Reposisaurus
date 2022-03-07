@@ -1,6 +1,16 @@
-# RepoRunner
+<div align="center">
+ <h1>RepoRunner</h1>
 
-This app lets you search, filter, and view GitHub Repositories
+ <p>This app lets you search, filter, and view GitHub Repositories.</p>
+</div>
+
+<hr />
+
+## Table of Contents
+- [Core Stack](#core-stack)
+- [Running the App Locally](#running-the-app-locally)
+- [Tests](#tests)
+- [In Development](#in-development)
 
 ## Core Stack
 
@@ -9,29 +19,47 @@ This app lets you search, filter, and view GitHub Repositories
 - [Primereact UI v7](https://www.primefaces.org/primereact)
 - [React Router v5](https://v5.reactrouter.com/)
 
+## Running the App Locally
+
+**NOTE:** If you're running the app for the first time, run the following commands:
+
+- HTTPS Clone
+1. `git clone https://github.com/JoshAaronLevy/repo-runner.git`
+
+- SSH Clone
+1. `git clone git@github.com:JoshAaronLevy/repo-runner.git`
+
+2. `cd repo-runner`
+
+3. `npm i`
+
+- (Optional) Ensure tests pass with Cypress
+4. `npm run e2e`
+
+- (Optional) Check build succeeds
+5. `npm run build`
+
+6. `npm start`
+
+## Tests
+
+This repo is configured for both integration and end-to-end tests
+
+Integration tests implemented with `@testing-library/react`
+
+Integration test files can be located in [`src/tests`](src/tests/) folder
+
+**NOTE:** Integration tests currently failing but can be run with the `npm run test` command
+
+e2e tests implemented with `@cypress/react`
+
+e2e test files can be located in [`cypress/integration/tests`](cypress/integration/tests/) folder
+
+**NOTE:** e2e tests currently succeeding and can be run with the `npm run e2e` command
+
 ## In Development
 
 Watch this repository in GitHub for the following updates in development:
 
-- Mocks with [Mirage.js](https://miragejs.com/) to add additional unit tests with Jest
 - e2e testing with [Cypress.io](https://www.cypress.io/)
-
-## Running the App Locally
-
-**NOTE:** If you're running the app for the first time, do the following steps:
-
-1. `git clone https://github.com/JoshAaronLevy/repo-runner.git`
-
-2. `cd repo-runner`
-
-3. `npm run initiate`
-
-The `npm run initiate` command will install all dependencies, run tests, build the project, and start a server on `http://localhost:3000/`
-
-## Additional Setup Comments
-
-If the `npm run initiate` command fails, first make sure you're on node version 14 or newer by running `node -v`
-
-If you are on a compatible node version, you should also be able to start the development server with the following command:
-
-`npm i && npm start`
+- Mocks with [Mirage.js](https://miragejs.com/) to add additional unit tests with Jest
