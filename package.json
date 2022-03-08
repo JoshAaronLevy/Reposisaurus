@@ -14,7 +14,8 @@
     "test:coverage": "CI=true npm test --env=jsdom --coverage",
     "e2e": "cypress run --record=false",
     "e2e:open": "cypress open",
-    "initiate": "npm install && npm run test && npm run build && npm start"
+    "initiate": "npm install && npm run test && npm run build && npm start",
+    "deploy": "rm -rf build && npm run build && firebase deploy && gitquick 'Deployed to Firebase'"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
