@@ -9,7 +9,6 @@ const DisplayMessage = ({
 	inputValue,
 	warningMessage,
 	errorMessage,
-	updateLoadingState,
 	updateWarningState,
 	updateErrorState
 }) => {
@@ -24,7 +23,6 @@ const DisplayMessage = ({
 	const RetrySearch = async (inputValue) => {
 		clearMessage();
 		if (inputValue) {
-			updateLoadingState(true);
 			const newRepos = await getRepositories(inputValue);
 			return newRepos;
 		} else {
@@ -95,7 +93,6 @@ const DisplayMessage = ({
 	);
 
 	useEffect(() => {
-		console.log(errorMessage);
 		if (warningMessage || errorMessage) {
 			constructMessage();
 		} else {

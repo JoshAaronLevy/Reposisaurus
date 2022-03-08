@@ -77,7 +77,6 @@ const SearchBar = ({
 		}
 		history.push({ search: params.toString() });
 		await getRepositories(inputValue).then(response => {
-			console.log(response);
 			if (response) {
 				repos = response;
 				if (response.length > 0) {
@@ -93,7 +92,7 @@ const SearchBar = ({
 			updateRepositories([]);
 			updateFilteredRepos([]);
 			updateErrorState("Looks like the chefs in the kitchen are still preparing those results. We'll check again in:");
-			console.log(error);
+			console.error(error);
 		});
 	}
 

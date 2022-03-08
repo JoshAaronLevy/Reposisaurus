@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { updateErrorState, updateLoadingState, updateWarningState } from "../actions/rootactions";
+import { updateErrorState, updateWarningState } from "../actions/rootactions";
 import DisplayMessage from "../components/DisplayMessage";
 
 const mapStateToProps = (state) => ({
@@ -10,7 +10,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	updateLoadingState: (loadingState) => dispatch(updateLoadingState(loadingState)),
 	updateErrorState: (message) => dispatch(updateErrorState(message)),
 	updateWarningState: (message) => dispatch(updateWarningState(message)),
 });

@@ -4,6 +4,7 @@ import { getStore } from "../reducers/store";
 
 export const getRepositories = (inputValue) => {
 	const store = getStore();
+	store.dispatch(updateLoadingState(true));
 	const request = axios.get(`https://api.github.com/search/repositories?q=${inputValue}`);
 	return request
 		.then((response) => {
