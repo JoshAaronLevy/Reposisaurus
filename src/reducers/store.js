@@ -9,6 +9,6 @@ export function getStore() {
 
 export function initializeStore(initialState) {
 	store = createStore(rootReducer, initialState);
-	store.subscribe(() => store.getState());
+	store.subscribe(() => console.log(store.getState()));
 	return store;
 }

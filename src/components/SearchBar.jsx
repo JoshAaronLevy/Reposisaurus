@@ -15,7 +15,9 @@ const SearchBar = ({
 	updateFilteredRepos,
 	updateSearchHistory,
 	updateRepositories,
-	clearMessages
+	clearMessages,
+	updateErrorState,
+	updateWarningState
 }) => {
 	const [query, setQuery] = useState('');
 	const [queryOptions, setQueryOptions] = useState([]);
@@ -28,7 +30,7 @@ const SearchBar = ({
 		} else {
 			setSearchDisabled(false);
 		}
-	}, [loading, query, inputVal]);
+	}, [inputVal, loading, query]);
 
 	const setSearchVal = async (e) => {
 		let inputValue = e.target.value;
@@ -75,15 +77,23 @@ const SearchBar = ({
 		}
 		history.push({ search: params.toString() });
 		await getRepositories(inputValue).then(response => {
+			console.log(response);
 			if (response) {
 				repos = response;
 				if (response.length > 0) {
 					updateSearchHistory(inputValue);
 				}
 				updateLoadingState(false);
+				updateErrorState(null);
+				updateWarningState(null);
 				updateRepositories(repos);
 				updateFilteredRepos(repos);
 			}
+		}).catch(error => {
+			updateRepositories([]);
+			updateFilteredRepos([]);
+			updateErrorState("Looks like the chefs in the kitchen are still preparing those results. We'll check again in:");
+			console.log(error);
 		});
 	}
 

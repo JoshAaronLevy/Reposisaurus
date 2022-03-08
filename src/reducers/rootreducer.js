@@ -19,9 +19,20 @@ export const rootReducer = createReducer([], {
 	},
 	UPDATE_ERROR_STATE: (state, action) => {
 		const errorVal = action.error;
+		let repos = [];
+		let filteredRepos = [];
+		if (errorVal) {
+			repos = state.repositories;
+			filteredRepos = state.filteredRepos;
+		} else {
+			repos = [];
+			filteredRepos = [];
+		}
 		return Object.assign({}, state, {
 			error: errorVal,
 			warning: null,
+			repositories: repos,
+			filteredRepos: filteredRepos
 		});
 	},
 	UPDATE_WARNING_STATE: (state, action) => {

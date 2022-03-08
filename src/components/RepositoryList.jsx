@@ -15,12 +15,14 @@ const RepositoryList = ({
 	updateFilteredRepos,
 	warningMessage,
 	errorMessage,
-	clearMessages
+	clearMessages,
+	updateErrorState
 }) => {
 	let navigate = useHistory();
+
 	useEffect(() => {
 		updateFilteredRepos(repositories);
-	}, [repositories, updateFilteredRepos]);
+	}, [repositories, updateFilteredRepos, errorMessage, updateErrorState]);
 
 	const selectRepository = async (selectedRepo) => {
 		updateSelectedRepository(selectedRepo);
@@ -65,19 +67,21 @@ const RepositoryList = ({
 						)
 					})}
 				</div>
+				{/* <MessageContainer /> */}
 			</div>
 		);
 	} else if (loading && (!warningMessage || !errorMessage)) {
 		return (
 			<ProgressSpinner />
 		);
-	} else if (!loading && (warningMessage || errorMessage)) {
+	} else if ((warningMessage || errorMessage) && !loading) {
 		return (
+			// <ProgressSpinner />
 			<MessageContainer />
 		);
 	} else {
 		return (
-			<div></div>
+			<MessageContainer className="message-container" />
 		);
 	}
 }
