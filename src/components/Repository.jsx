@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from "react";
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Button } from 'primereact/button';
 import { Chip } from 'primereact/chip';
@@ -15,6 +16,8 @@ const Repository = ({
 }) => {
 	let { owner } = useParams();
 	let { name } = useParams();
+	const metaTitle = `${selectedRepo.name} by ${selectedRepo.owner.login} - RepoRunner`;
+	const metaDescription = `${selectedRepo.description}`;
 
 	const getRepoFromUrl = useCallback(
 		() => {
@@ -46,29 +49,37 @@ const Repository = ({
 
 	if (!loading && (selectedRepo && selectedRepo.id)) {
 		return (
-			<div className="grid grid-nogutter surface-0 text-800 hero-container">
-				<div className="col-12 md:col-6 text-center md:text-left flex align-items-center">
-					<section className="repo-description">
-						<div className="text-6xl text-primary font-bold mb-3">{selectedRepo.name}</div>
-						<div className="col-12 md:col-6 overflow-hidden repo-owner-image md-hidden lg-hidden xl-hidden">
-							<img src={selectedRepo.owner.avatar_url} alt="small-avatar" className="md:ml-auto block md:h-full repo-avatar" />
-						</div>
-						<span className="block text-3xl font-bold mb-1">{selectedRepo.owner.login}</span>
-						<p className="mt-0 mb-4 text-700 line-height-3">{selectedRepo.description}</p>
-						<div className="flex align-items-center flex-wrap mb-3">
-							{selectedRepo.topics.map((topic) => {
-								return (
-									<Chip key={topic} label={topic} className="mr-2 mb-2" />
-								)
-							})}
-						</div>
-						<Button label="Source" type="button" icon="pi pi-github" className="mb-3 p-button-raised" onClick={() => { selectRepository(selectedRepo) }} />
-					</section>
+			<>
+				<HelmetProvider>
+					<Helmet>
+						<title>{metaTitle}</title>
+						<meta name="description" content={metaDescription} />
+					</Helmet>
+				</HelmetProvider>
+				<div className="grid grid-nogutter surface-0 text-800 hero-container">
+					<div className="col-12 md:col-6 text-center md:text-left flex align-items-center">
+						<section className="repo-description">
+							<div className="text-6xl text-primary font-bold mb-3">{selectedRepo.name}</div>
+							<div className="col-12 md:col-6 overflow-hidden repo-owner-image md-hidden lg-hidden xl-hidden">
+								<img src={selectedRepo.owner.avatar_url} alt="small-avatar" className="md:ml-auto block md:h-full repo-avatar" />
+							</div>
+							<span className="block text-3xl font-bold mb-1">{selectedRepo.owner.login}</span>
+							<p className="mt-0 mb-4 text-700 line-height-3">{selectedRepo.description}</p>
+							<div className="flex align-items-center flex-wrap mb-3">
+								{selectedRepo.topics.map((topic) => {
+									return (
+										<Chip key={topic} label={topic} className="mr-2 mb-2" />
+									)
+								})}
+							</div>
+							<Button label="Source" type="button" icon="pi pi-github" className="mb-3 p-button-raised" onClick={() => { selectRepository(selectedRepo) }} />
+						</section>
+					</div>
+					<div className="col-12 md:col-6 overflow-hidden repo-owner-image xs-hidden">
+						<img src={selectedRepo.owner.avatar_url} alt="large-avatar" className="md:ml-auto block md:h-full repo-avatar" />
+					</div>
 				</div>
-				<div className="col-12 md:col-6 overflow-hidden repo-owner-image xs-hidden">
-					<img src={selectedRepo.owner.avatar_url} alt="large-avatar" className="md:ml-auto block md:h-full repo-avatar" />
-				</div>
-			</div>
+			</>
 		)
 	} else if (loading) {
 		return (
