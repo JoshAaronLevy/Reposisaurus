@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ScrollTop } from 'primereact/scrolltop';
 import { Provider } from "react-redux";
@@ -10,6 +10,8 @@ import './App.scss';
 import Home from './pages/Home';
 import Header from './components/Header';
 import RepositoryContainer from './containers/RepositoryContainer';
+
+export const AuthContext = createContext();
 
 const store = initializeStore({ ...INITIALSTATE });
 

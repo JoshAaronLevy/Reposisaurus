@@ -40,3 +40,44 @@
 .nav-pi {
 	font-size: 1.6rem !important;
 }
+
+.nav-links {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.nav-button {
+	background-color: transparent;
+	border: none;
+	padding: 10px 30px;
+	&:hover {
+		cursor: pointer;
+	}
+	i {
+		font-size: 1.6rem;
+		color: #ffffff;
+	}
+}
+
+.p-dialog-title {
+	text-align: center;
+}
+
+.p-dialog .p-dialog-header-icons {
+	display: none;
+}
+
+.login-container {
+	display: flex;
+	justify-content: center;
+}
+
+.github-login {
+	background: #333333;
+	border: 1px solid #333333;
+	&:hover {
+		background: #555555 !important;
+		border: 1px solid #555555 !important;
+	}
+}
