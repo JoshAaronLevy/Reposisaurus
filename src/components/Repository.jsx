@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from "react";
-import { HelmetProvider, Helmet } from 'react-helmet-async';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Button } from 'primereact/button';
-import { Chip } from 'primereact/chip';
+import { HelmetProvider, Helmet } from "react-helmet-async";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { Button } from "primereact/button";
+import { Chip } from "primereact/chip";
 import "../styles/hero.scss";
 import "../styles/messages.scss";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { getRepository } from "../services/RepositoryApi";
 
 const Repository = ({

@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useRef } from 'react';
-import { Messages } from 'primereact/messages';
-import { Button } from 'primereact/button';
-import Countdown from 'react-countdown';
-import { getRepositories } from '../services/RepositoryApi';
+import React, { useCallback, useEffect, useRef } from "react";
+import { Messages } from "primereact/messages";
+import { Button } from "primereact/button";
+import Countdown from "react-countdown";
+import { getRepositories } from "../services/RepositoryApi";
 
 const DisplayMessage = ({
 	inputValue,

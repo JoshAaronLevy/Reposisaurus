@@ -1,15 +1,15 @@
-import React, { createContext } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ScrollTop } from 'primereact/scrolltop';
+import React, { createContext } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ScrollTop } from "primereact/scrolltop";
 import { Provider } from "react-redux";
 import { initializeStore } from "./reducers/store";
 import { INITIALSTATE } from "./constants/InitialState";
 import "primeflex/primeflex.css";
-import './App.scss';
+import "./App.scss";
 
-import Home from './pages/Home';
-import Header from './components/Header';
-import RepositoryContainer from './containers/RepositoryContainer';
+import Home from "./pages/Home";
+import Header from "./components/Header";
+import RepositoryContainer from "./containers/RepositoryContainer";
 
 export const AuthContext = createContext();
 

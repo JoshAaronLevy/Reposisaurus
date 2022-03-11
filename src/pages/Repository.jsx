@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useContext, useRef } from 'react';
-import appContext from '../services/context';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Messages } from 'primereact/messages';
-import { Button } from 'primereact/button';
-import { Chip } from 'primereact/chip';
+import React, { useEffect, useContext, useRef } from "react";
+import appContext from "../services/context";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { Messages } from "primereact/messages";
+import { Button } from "primereact/button";
+import { Chip } from "primereact/chip";
 import "../styles/hero.scss";
 import "../styles/messages.scss";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 const Repository = () => {
 	const appState = useContext(appContext);
@@ -38,13 +38,13 @@ const Repository = () => {
 
 	const displayErrorMsg = () => {
 		msg.current.replace({
-			severity: 'error',
+			severity: "error",
 			sticky: true,
 			closable: false,
 			content: (
 				<React.Fragment>
 					<div className="ml-2">
-						<h2 className='text-center'>{errorMsg}</h2>
+						<h2 className="text-center">{errorMsg}</h2>
 					</div>
 				</React.Fragment>
 			)
@@ -76,7 +76,7 @@ const Repository = () => {
 						</section>
 					</div>
 					<div className="col-12 md:col-6 overflow-hidden">
-						<img src={selectedRepo.owner.avatar_url} alt="hero-1" className="md:ml-auto block md:h-full" style={{ clipPath: 'polygon(8% 0, 100% 0%, 100% 100%, 0 100%)' }} />
+						<img src={selectedRepo.owner.avatar_url} alt="hero-1" className="md:ml-auto block md:h-full" style={{ clipPath: "polygon(8% 0, 100% 0%, 100% 100%, 0 100%)" }} />
 					</div>
 				</div>
 			)

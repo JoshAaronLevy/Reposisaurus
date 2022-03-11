@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { ProgressSpinner } from "primereact/progressspinner";
 import "../styles/table.scss";
-import Moment from 'react-moment';
-import SearchFilters from './SearchFilters';
-import { Tooltip } from 'primereact/tooltip';
-import MessageContainer from '../containers/MessageContainer';
+import Moment from "react-moment";
+import SearchFilters from "./SearchFilters";
+import { Tooltip } from "primereact/tooltip";
+import MessageContainer from "../containers/MessageContainer";
 
 const RepositoryList = ({
 	loading,
@@ -32,7 +32,7 @@ const RepositoryList = ({
 
 	if (!loading && (!warningMessage || !errorMessage) && (repositories && repositories.length > 0)) {
 		return (
-			<div className='container-padded'>
+			<div className="container-padded">
 				<SearchFilters />
 				<div className="grid">
 					{filteredRepos.map((repo) => {
@@ -41,7 +41,7 @@ const RepositoryList = ({
 								<Tooltip target=".tooltip-target"></Tooltip>
 								<div className="surface-0 shadow-2 p-2 border-round repo-card-item" onClick={() => { selectRepository(repo) }}>
 									<div className="flex justify-content-between align-items-center mb-3">
-										<div className='card-title-container'>
+										<div className="card-title-container">
 											<div className="text-900 font-medium text-xl mb-1 pl-3 text-left">{repo.name}</div>
 											<span className="block text-600 font-medium mb-0 pl-3 text-left">{repo.owner.login}</span>
 										</div>
@@ -49,7 +49,7 @@ const RepositoryList = ({
 											<img src={repo.owner.avatar_url} alt={repo.owner.login} width="60" height="60" />
 										</div>
 									</div>
-									<div className='col-12 repo-card-footer'>
+									<div className="col-12 repo-card-footer">
 										<span className="col-4 text-left repo-stat">
 											<i className="fa-regular fa-calendar-circle-plus tooltip-target" data-pr-tooltip="Created Date" data-pr-position="top"></i><Moment format="MM/DD/YY"><p>{repo.created_at}</p></Moment></span>
 										<span className="col-3 text-left repo-stat">

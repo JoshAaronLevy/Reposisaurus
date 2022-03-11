@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { AutoComplete } from 'primereact/autocomplete';
-import { Button } from 'primereact/button';
-import { useHistory } from 'react-router-dom';
-import { getRepositories } from '../services/RepositoryApi';
+import React, { useState, useEffect } from "react";
+import { AutoComplete } from "primereact/autocomplete";
+import { Button } from "primereact/button";
+import { useHistory } from "react-router-dom";
+import { getRepositories } from "../services/RepositoryApi";
 
 const SearchBar = ({
 	loading,
@@ -19,7 +19,7 @@ const SearchBar = ({
 	updateErrorState,
 	updateWarningState
 }) => {
-	const [query, setQuery] = useState('');
+	const [query, setQuery] = useState("");
 	const [queryOptions, setQueryOptions] = useState([]);
 	const [searchDisabled, setSearchDisabled] = useState(true);
 	const history = useHistory();
@@ -63,7 +63,7 @@ const SearchBar = ({
 		updateLoadingState(true);
 		updateQueryInput(inputValue);
 		updateSelectedRepository({});
-		updateFilterValue('');
+		updateFilterValue("");
 		searchRepositories(inputValue);
 	}
 
@@ -91,19 +91,19 @@ const SearchBar = ({
 		}).catch(error => {
 			updateRepositories([]);
 			updateFilteredRepos([]);
-			updateErrorState("Looks like the chefs in the kitchen are still preparing those results. We'll check again in:");
+			updateErrorState(`Looks like the chefs in the kitchen are still preparing those results. We'll check again in:`);
 			console.error(error);
 		});
 	}
 
 	return (
 		<div className="grid surface-0 text-800 mb-5 justify-content-center">
-			<section className='col-12 hero-section'>
+			<section className="col-12 hero-section">
 				<span className="block text-3xl font-bold mb-4 hero-title">Search GitHub Repositories</span>
 				<form onSubmit={(event) => { submitSearch(event, query) }}>
 					<div className="p-inputgroup search-form">
-						<AutoComplete id='repoSearch' value={query} suggestions={queryOptions} completeMethod={filterQueries} onChange={(event) => { setSearchVal(event) }} onSelect={(event) => { selectFromHistory(event) }} onKeyUp={(event) => { keyUpAction(event, query) }} placeholder="Search by Repo Name..." />
-						<Button className='search-button' disabled={searchDisabled} type="submit" label="Search" />
+						<AutoComplete id="repoSearch" value={query} suggestions={queryOptions} completeMethod={filterQueries} onChange={(event) => { setSearchVal(event) }} onSelect={(event) => { selectFromHistory(event) }} onKeyUp={(event) => { keyUpAction(event, query) }} placeholder="Search by Repo Name..." />
+						<Button className="search-button" disabled={searchDisabled} type="submit" label="Search" />
 					</div>
 				</form>
 			</section>

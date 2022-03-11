@@ -1,25 +1,25 @@
 /* eslint-disable no-useless-constructor */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import "../styles/table.scss";
-import { connect } from 'react-redux';
-import { updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from '../actions/rootactions';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
+import { connect } from "react-redux";
+import { updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository } from "../actions/rootactions";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
 
 class SearchFilters extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			filterInput: ''
+			filterInput: ""
 		}
 
 		this.sortOptions = [
-			{ name: 'Default' },
-			{ name: 'Stars - High to Low' },
-			{ name: 'Stars - Low to High' }
+			{ name: "Default" },
+			{ name: "Stars - High to Low" },
+			{ name: "Stars - Low to High" }
 		];
 	}
 
@@ -43,7 +43,7 @@ class SearchFilters extends Component {
 
 		const clearFilterVal = (event) => {
 			event.preventDefault();
-			let inputValue = '';
+			let inputValue = "";
 			this.setState({ filterInput: inputValue });
 			updateFilteredRepos(this.props.repositories);
 			updateFilterValue(inputValue);
@@ -52,11 +52,11 @@ class SearchFilters extends Component {
 		const onSortChange = (e) => {
 			this.setState({ selectedSortOption: e.value });
 			let sortedRepositories = this.props.repositories;
-			if (e.value.name === 'Stars - Low to High') {
+			if (e.value.name === "Stars - Low to High") {
 				sortedRepositories.sort(function (a, b) {
 					return a.stargazers_count - b.stargazers_count;
 				});
-			} else if (e.value.name === 'Stars - High to Low') {
+			} else if (e.value.name === "Stars - High to Low") {
 				sortedRepositories.sort(function (a, b) {
 					return b.stargazers_count - a.stargazers_count;
 				});
@@ -67,7 +67,7 @@ class SearchFilters extends Component {
 
 		return (
 			<div className="grid text-800 mb-1 justify-content-end">
-				<section className='col-12 filter-section'>
+				<section className="col-12 filter-section">
 					<div className="p-inputgroup filter-form xs:col-9 sm:col-8 md:col-6 lg:col-3">
 						<InputText value={this.state.filterInput} onChange={(event) => { setFilterVal(event) }} placeholder="Filter by Language" />
 						<Button disabled={!this.props.filterValue} type="button" label="Clear" className="p-button-danger" onClick={(event) => { clearFilterVal(event) }} />

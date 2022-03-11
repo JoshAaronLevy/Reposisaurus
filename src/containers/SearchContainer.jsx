@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { clearMessages, updateErrorState, updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository, updateWarningState } from '../actions/rootactions';
+import { clearMessages, updateErrorState, updateFilteredRepos, updateFilterValue, updateLoadingState, updateQueryInput, updateRepositories, updateSearchHistory, updateSelectedRepository, updateWarningState } from "../actions/rootactions";
 import SearchBar from "../components/SearchBar";
 
 const mapStateToProps = (state) => ({
