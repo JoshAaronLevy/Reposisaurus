@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
 import "../styles/header.scss";
-// import { Button } from "primereact/button";
 import authKeys from "../keys/auth";
 
 const Header = () => {
